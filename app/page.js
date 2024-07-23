@@ -1,16 +1,10 @@
 import Image from "next/image";
 import styles from "./page.module.css";
-import { getData } from "@/app/lib/data";
 
-const Home = async () => {
-  const data = await getData();
-
+export default function Home() {
   return (
     <main className={styles.main}>
       <div className={styles.description}>
-        {data.map((item, index) => (
-          <p>{item.title}</p>
-        ))}
         <p>
           Get started by editing&nbsp;
           <code className={styles.code}>app/page.js</code>
@@ -98,6 +92,4 @@ const Home = async () => {
       </div>
     </main>
   );
-};
-
-export default Home;
+}
