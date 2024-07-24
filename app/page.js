@@ -1,9 +1,23 @@
+"use client";
+
 import Image from "next/image";
 import styles from "./page.module.css";
+import useFetch from "@/hooks/useFetch";
 
-export default async function Home() {
+export default function Home() {
+  const { data } = useFetch("/api/user?skip=3");
+
+  console.log("data", data);
+
   return (
     <main className={styles.main}>
+      {data
+        ? data.data.map((item) => (
+            <p style={{ color: "red" }} key={item.id}>
+              name: {item.name}
+            </p>
+          ))
+        : null}
       <div className={styles.description}>
         <p>
           Get started by editing&nbsp;
