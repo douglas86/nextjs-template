@@ -7,6 +7,28 @@ const options = {
       title: "Next.js API",
       version: "1.0.0",
     },
+    components: {
+      schemas: {
+        User: {
+          type: "object",
+          required: ["name"],
+          properties: {
+            id: {
+              type: "number",
+              description: "User ID",
+            },
+            name: {
+              type: "string",
+              description: "User name",
+            },
+            createdAt: {
+              type: "date",
+              description: "User created date",
+            },
+          },
+        },
+      },
+    },
   },
   apis: ["./app/api/**/*.js"],
 };

@@ -2,6 +2,7 @@
  * @swagger
  * /api/hello:
  *  get:
+ *      tags: [Hello]
  *      description: Returns a greeting message
  *      responses:
  *          200:
