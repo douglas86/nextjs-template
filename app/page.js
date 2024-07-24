@@ -1,18 +1,10 @@
 import Image from "next/image";
 import styles from "./page.module.css";
-import { userData } from "@/app/api/userData";
 
 export default async function Home() {
-  const user = await userData(0, 20);
-
-  console.log("user", user);
-
   return (
     <main className={styles.main}>
       <div className={styles.description}>
-        {user.map(({ id, name }) => (
-          <p key={id}>name: {name}</p>
-        ))}
         <p>
           Get started by editing&nbsp;
           <code className={styles.code}>app/page.js</code>
