@@ -1,10 +1,22 @@
 import Image from "next/image";
 import styles from "./page.module.css";
+import prisma from "./lib/prisma";
 
-export default function Home() {
+async function fetchData() {
+  return await prisma.user.findMany();
+}
+
+export default async function Home() {
+  const user = await fetchData();
+
+  console.log("user", user);
+
   return (
     <main className={styles.main}>
       <div className={styles.description}>
+        {user.map(({ id, name }) => (
+          <p key={id}>name: {name}</p>
+        ))}
         <p>
           Get started by editing&nbsp;
           <code className={styles.code}>app/page.js</code>

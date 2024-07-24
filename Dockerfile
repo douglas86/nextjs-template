@@ -8,11 +8,14 @@ RUN corepack enable
 
 WORKDIR /app
 
-COPY package.json .
+COPY package*.json .
 RUN pnpm install
 
 COPY . .
+RUN pnpm install prisma --save-dev
+RUN npx prisma generate
+RUN pnpm run build
 
 EXPOSE 3000
 
-CMD [ "pnpm", "run", "dev" ]
+CMD ["sh", "-c", "npx prisma migrate deploy && pnpm run dev"]
