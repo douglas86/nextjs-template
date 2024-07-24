@@ -1,13 +1,9 @@
 import Image from "next/image";
 import styles from "./page.module.css";
-import prisma from "./lib/prisma";
-
-async function fetchData() {
-  return await prisma.user.findMany();
-}
+import { userData } from "@/app/api/userData";
 
 export default async function Home() {
-  const user = await fetchData();
+  const user = await userData(0, 20);
 
   console.log("user", user);
 
