@@ -14,7 +14,6 @@ RUN pnpm install
 COPY . .
 RUN pnpm install prisma --save-dev
 RUN npx prisma generate
-RUN pnpm run build
 
 EXPOSE 3000
 
