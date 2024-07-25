@@ -5,7 +5,7 @@ import styles from "./page.module.css";
 import useFetch from "@/hooks/useFetch";
 
 export default function Home() {
-  const { data } = useFetch("/api/user?skip=3");
+  const { data } = useFetch("/user?skip=3");
 
   console.log("data", data);
 

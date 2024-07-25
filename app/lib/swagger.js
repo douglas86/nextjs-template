@@ -22,7 +22,8 @@ const options = {
               description: "User name",
             },
             createdAt: {
-              type: "date",
+              type: "string",
+              format: "date-time",
               description: "User created date",
             },
           },
