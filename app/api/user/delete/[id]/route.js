@@ -33,7 +33,6 @@ import prisma from "@/app/lib/prisma";
  */
 export async function DELETE(request, { params }) {
   const { id } = params;
-  console.log("id2", id);
 
   try {
     let user = await prisma.user.findUnique({
