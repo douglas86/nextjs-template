@@ -15,7 +15,12 @@ const useFetch = (url) => {
       .catch((err) => setError(err));
   }, []);
 
-  return { data, error };
+  return {
+    data: data ? data.data : null,
+    length: data ? data.length : null,
+    message: data ? data.message : null,
+    error,
+  };
 };
 
 export default useFetch;

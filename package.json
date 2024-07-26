@@ -12,10 +12,12 @@
   },
   "dependencies": {
     "@prisma/client": "^5.17.0",
+    "axios": "^1.7.2",
     "next": "14.2.5",
     "prisma": "^5.17.0",
     "react": "^18",
     "react-dom": "^18",
+    "react-infinite-scroll-component": "^6.1.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-react": "^5.17.14"
   },

@@ -1,19 +1,22 @@
 FROM node:22.4.0-alpine3.20 AS base
 
 #This is to use pnpm from your local machine
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
+#ENV PNPM_HOME="/pnpm"
+#ENV PATH="$PNPM_HOME:$PATH"
+RUN npm install -g pnpm && pnpm --version
 #corepack is for enabling symlink as it is experimental
 RUN corepack enable
 
 WORKDIR /app
 
-COPY package*.json .
-RUN pnpm install
+COPY package*.json ./
+COPY pnpm-lock.yaml ./
+RUN pnpm install || cat /root/.pnpm-debug.log
 
 COPY . .
-RUN pnpm install prisma --save-dev
-RUN npx prisma generate
+
+RUN pnpm add prisma --save-dev || cat /root/.pnpm-debug.log
+RUN npx prisma generate || cat /root/.pnpm-debug.log
 
 EXPOSE 3000
 
