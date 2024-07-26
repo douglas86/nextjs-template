@@ -16,7 +16,7 @@ import prisma from "@/app/lib/prisma";
  *      description: id of the user that you want to delete
  *   responses:
  *    200:
- *      description: deletes user
+ *      description: successfully deletes the user
  *      content:
  *        application/json:
  *          schema:
@@ -31,8 +31,8 @@ import prisma from "@/app/lib/prisma";
  *    500:
  *      description: internal server error
  */
-export async function DELETE(request) {
-  const { id } = request.params;
+export async function DELETE(request, { params }) {
+  const { id } = params;
   console.log("id2", id);
 
   try {
@@ -41,10 +41,13 @@ export async function DELETE(request) {
     });
 
     if (!user) {
-      return new Response(JSON.stringify({ message: "User not found" }), {
-        headers: { "Content-Type": "application/json" },
-        status: 404,
-      });
+      return new Response(
+        JSON.stringify({ message: "User not found", status: 404 }),
+        {
+          headers: { "Content-Type": "application/json" },
+          status: 404,
+        },
+      );
     }
     await prisma.user.delete({ where: { id: parseInt(id, 10) } });
     return new Response(
@@ -55,7 +58,7 @@ export async function DELETE(request) {
       },
     );
   } catch (e) {
-    return new Response(JSON.stringify({ message: e.message }), {
+    return new Response(JSON.stringify({ message: e.message, status: 500 }), {
       headers: { "Content-Type": "application/json" },
       status: 500,
     });
