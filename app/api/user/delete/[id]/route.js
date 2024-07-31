@@ -1,4 +1,5 @@
-import prisma from "@/app/lib/prisma";
+import prisma from "@/lib/prisma";
+import { response } from "@/utils/API/response";
 
 /**
  * @swagger
@@ -40,26 +41,13 @@ export async function DELETE(request, { params }) {
     });
 
     if (!user) {
-      return new Response(
-        JSON.stringify({ message: "User not found", status: 404 }),
-        {
-          headers: { "Content-Type": "application/json" },
-          status: 404,
-        },
-      );
+      return response({ message: "no user found", status: 404 });
     }
+
     await prisma.user.delete({ where: { id: parseInt(id, 10) } });
-    return new Response(
-      JSON.stringify({ message: "Successfully deleted user" }),
-      {
-        headers: { "Content-Type": "application/json" },
-        status: 200,
-      },
-    );
+
+    return response({ message: "Successfully deleted user", status: 200 });
   } catch (e) {
-    return new Response(JSON.stringify({ message: e.message, status: 500 }), {
-      headers: { "Content-Type": "application/json" },
-      status: 500,
-    });
+    return response({ message: e.message, status: 500 });
   }
 }

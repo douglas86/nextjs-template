@@ -1,4 +1,6 @@
-import prisma from "@/app/lib/prisma";
+import prisma from "@/lib/prisma";
+import { skip, take } from "@/utils/API";
+import { response } from "@/utils/API/response";
 
 /**
  * @swagger
@@ -43,20 +45,11 @@ import prisma from "@/app/lib/prisma";
 export async function GET(requests) {
   const { searchParams } = new URL(requests.url); // This will get the queries from the url that is passed
 
-  const skip = parseInt(searchParams.get("skip"))
-    ? parseInt(searchParams.get("skip"))
-    : 0;
-  const take = parseInt(searchParams.get("take"))
-    ? parseInt(searchParams.get("take"))
-    : 10;
-
   const length = await prisma.user.count();
   const data = await prisma.user.findMany({
-    skip,
-    take,
+    skip: skip(searchParams),
+    take: take(searchParams),
   });
 
-  return new Response(JSON.stringify({ message: "ok", data, length }), {
-    headers: { "Content-Type": "application/json" },
-  });
+  return response({ message: "ok", data, length });
 }
