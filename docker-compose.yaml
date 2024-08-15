@@ -11,7 +11,7 @@ services:
     expose:
       - 5432
     ports:
-      - 5432:5432
+      - "5432:5432"
   test_database:
     image: postgres:16.3-alpine3.20
     container_name: test_database
@@ -24,7 +24,7 @@ services:
     expose:
       - 5433
     ports:
-      - 5433:5432
+      - "5433:5432"
   app:
     container_name: app
     build:
@@ -37,10 +37,9 @@ services:
     expose:
       - 3000
     ports:
-      - 3000:3000
+      - "3000:3000"
     depends_on:
       - database
       - test_database
     volumes:
       - .:/app
-      - /app/node_modules
