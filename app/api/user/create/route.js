@@ -1,6 +1,5 @@
-import { amount } from "@/utils/API";
+import { amount, response } from "@/utils/API";
 import prisma from "@/lib/prisma";
-import { response } from "@/utils/API/response";
 
 /**
  * @swagger
