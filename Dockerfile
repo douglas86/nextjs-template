@@ -8,12 +8,13 @@ RUN corepack enable
 
 WORKDIR /app
 
-COPY package*.json .
-RUN pnpm install
+COPY package*.json pnpm-lock.yaml ./
+RUN pnpm install || cat /root/.pnpm-debug.log
 
 COPY . .
-RUN pnpm install prisma --save-dev
-RUN npx prisma generate
+
+RUN pnpm add prisma --save-dev || cat /root/.pnpm-debug.log
+RUN npx prisma generate || cat /root/.pnpm-debug.log
 
 EXPOSE 3000
 
