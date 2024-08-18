@@ -17,11 +17,11 @@ datasource db {
 model User {
   id            Int             @id @default(autoincrement())
   name          String?
-  email         String
-  emailVerified String          @unique
+  email         String          @unique
+  emailVerified DateTime?
   image         String?
   accounts      Account[]
-  session       Session[]
+  sessions      Session[]
   Authenticator Authenticator[]
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
@@ -49,7 +49,8 @@ model Account {
 }
 
 model Session {
-  SessionToken String   @unique
+  id           Int      @id @default(autoincrement())
+  sessionToken String   @unique
   userId       Int
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -67,14 +68,14 @@ model VerificationToken {
 }
 
 model Authenticator {
-  credentialID        String  @unique
-  userId              Int
-  providerAccountId   String
-  credentialPublicKey String
-  counter             Int
-  credentialDeviceTye String
-  credentialBackedUp  Boolean
-  transports          String?
+  credentialID         String  @unique
+  userId               Int
+  providerAccountId    String
+  credentialPublicKey  String
+  counter              Int
+  credentialDeviceType String
+  credentialBackedUp   Boolean
+  transports           String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 

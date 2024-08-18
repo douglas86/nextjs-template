@@ -1,4 +1,6 @@
 import NextAuth from "next-auth";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import prisma from "@/lib/prisma";
 import GoogleProvider from "next-auth/providers/google";
 
 const handler = NextAuth({
@@ -9,17 +11,22 @@ const handler = NextAuth({
     }),
   ],
   callbacks: {
-    async session({ session, token, user }) {
-      session.user.id = token.sub;
-      return session;
-    },
-    async signIn({ account, profile }) {
-      if (account.provider === "google") {
-        return profile.email_verified && profile.email.endsWith("@gmail.com");
-      }
+    async signIn({ user, account, profile }) {
+      console.log("user: ", user);
+      console.log("Account: ", account);
+      console.log("Profile: ", profile);
       return true;
     },
+    async session({ session, user }) {
+      session.user.id = user.id;
+      return await prisma.user.create({});
+    },
   },
+  adapter: PrismaAdapter(prisma),
+  session: {
+    strategy: "database",
+  },
+  // secret: process.env.NEXT_APP_SECRET_KEY,
 });
 
 export { handler as GET, handler as POST };
