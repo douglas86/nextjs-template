@@ -19,7 +19,7 @@ const handler = NextAuth({
     },
     async session({ session, user }) {
       session.user.id = user.id;
-      return await prisma.user.create({});
+      return session;
     },
   },
   adapter: PrismaAdapter(prisma),
