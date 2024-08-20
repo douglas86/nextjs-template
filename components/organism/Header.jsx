@@ -1,9 +1,17 @@
 "use client";
 
+import { useSession, signIn, signOut } from "next-auth/react";
+
+import { button } from "@/components/atom";
+
 const Header = () => {
+  const { data: session } = useSession();
+
   return (
     <header className="header">
-      <button onClick={() => console.log("You clicked")}>Sign In</button>
+      {session
+        ? button(() => signOut(), "btn", "Sign Out")
+        : button(() => signIn(), "btn", "Sign In")}
     </header>
   );
 };

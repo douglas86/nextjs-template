@@ -6,14 +6,11 @@ import useFetch from "@/hooks/useFetch";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { useSession, signIn, signOut } from "next-auth/react";
 
 export default function Home() {
   const [items, setItems] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [index, setIndex] = useState(10);
-
-  const { data: session } = useSession();
 
   useEffect(() => {
     axios
@@ -39,21 +36,10 @@ export default function Home() {
     setIndex((prevIndex) => prevIndex + 10);
   };
 
-  if (session) {
-    return (
-      <>
-        Signed in as {session.user.email} <br />
-        <button onClick={() => signOut()}>Sign Out</button>
-      </>
-    );
-  }
-
   console.log("items", items);
 
   return (
     <main className={styles.main}>
-      Not signed in <br />
-      <button onClick={() => signIn()}>Sign In</button>
       <InfiniteScroll
         next={fetchMoreData}
         hasMore={hasMore}
