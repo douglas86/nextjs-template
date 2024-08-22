@@ -11,6 +11,11 @@
     "build": "tailwindcss -i src/styles.css -o dist/styles.css",
     "start": "next start",
     "lint": "next lint",
+    "migrate": "npx prisma migrate deploy",
+    "create-db": "docker-compose up -d database test_database",
+    "database": "pnpm run create-db && pnpm run migrate",
+    "app": "pnpm install && pnpm run dev",
+    "run": "concurrently \"pnpm run database\" \"pnpm run app\"",
     "prisma": "npx prisma studio",
     "cypress": "npx cypress open"
   },
