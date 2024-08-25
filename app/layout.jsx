@@ -2,7 +2,7 @@ import { Inter } from "next/font/google";
 import SessionProvider from "@/app/SessionWrapper";
 import { getServerSession } from "next-auth";
 import Header from "@/components/organism/Header";
-// import "./globals.css";
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 

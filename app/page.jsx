@@ -40,6 +40,7 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
+      <p className="text-3xl font-bold uppercase">Hello World</p>
       <InfiniteScroll
         next={fetchMoreData}
         hasMore={hasMore}
