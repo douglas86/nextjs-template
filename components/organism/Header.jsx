@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useSession, signIn, signOut } from "next-auth/react";
 
 import { button } from "@/components/atom";
+import Customer from "@/public/Customer.png";
 
 import {
   Disclosure,
@@ -15,20 +16,24 @@ import {
   MenuItems,
 } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { useState } from "react";
 
 const Header = () => {
   const { data: session } = useSession();
+  const [currentPage, setCurrentPage] = useState("Dashboard");
 
   const navigation = [
-    { name: "Dashboard", href: "#", current: true },
-    { name: "Team", href: "#", current: false },
-    { name: "Projects", href: "#", current: false },
-    { name: "Calendar", href: "#", current: false },
+    { name: "Dashboard", href: "#", current: currentPage === "Dashboard" },
+    { name: "Team", href: "#", current: currentPage === "Team" },
+    { name: "Projects", href: "#", current: currentPage === "Projects" },
+    { name: "Calendar", href: "#", current: currentPage === "Calendar" },
   ];
 
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
+
+  console.log("session", session);
 
   return (
     <header className="header">
@@ -65,6 +70,7 @@ const Header = () => {
                       key={item.name}
                       href={item.href}
                       aria-current={item.current ? "page" : undefined}
+                      onClick={() => setCurrentPage(item.name)}
                       className={classNames(
                         item.current
                           ? "bg-gray-900 text-white"
