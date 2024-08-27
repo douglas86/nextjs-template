@@ -7,15 +7,14 @@
     "npm": "10.8.1"
   },
   "scripts": {
-    "dev": "next dev",
-    "build": "tailwindcss -i styles/styles.css -o dist/styles.css",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "migrate": "npx prisma migrate deploy",
     "create-db": "docker-compose up -d database test_database",
     "database": "pnpm run create-db && sleep 5 && pnpm run migrate",
-    "app": "pnpm install && sleep 5 && pnpm run migrate && echo '\\033[1;31mPlease wait while we migrate the database\\033[0m' && pnpm dev",
-    "server": "concurrently \"pnpm run database\" \"pnpm run app\"",
+    "app": "pnpm install && sleep 5 && pnpm run migrate && echo '\\033[1;31mPlease wait while we migrate the database\\033[0m' && next dev --turbo",
+    "dev": "concurrently \"pnpm run database\" \"pnpm run app\"",
     "prisma": "npx prisma studio",
     "cypress": "npx cypress open"
   },
@@ -27,7 +26,6 @@
     "axios": "^1.7.2",
     "next": "14.2.5",
     "next-auth": "^4.24.7",
-    "outline": "link:@heroicons/react/24/outline",
     "prisma": "^5.18.0",
     "react": "^18",
     "react-dom": "^18",

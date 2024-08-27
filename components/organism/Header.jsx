@@ -126,7 +126,7 @@ const Header = () => {
                       href="#"
                       className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
                     >
-                      Sign out
+                      <button onClick={() => signOut()}>Sign Out</button>
                     </a>
                   </MenuItem>
                 </MenuItems>
