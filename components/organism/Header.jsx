@@ -33,8 +33,6 @@ const Header = () => {
     return classes.filter(Boolean).join(" ");
   }
 
-  console.log("session", session);
-
   return (
     <header className="header">
       <Disclosure as="nav" className="bg-gray-800">
