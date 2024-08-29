@@ -32,7 +32,7 @@ Note: to install the above information, please see the Instructions on your pref
 - git clone https://github.com/douglas86/nextjs-template.git
 - git clone git@github.com:douglas86/nextjs-template.git
 - This project uses node version 22
-- Which can be seen in the package.json under the engine object
+- Which can be seen in the package.json under the engines object
 
 ![engines_object.png](public/docs/setup/engines_object.png)
 
@@ -42,8 +42,8 @@ Note: to install the above information, please see the Instructions on your pref
 - Then using nvm run the following commands:
   - $ nvm install 22
   - $ nvm use 22
-  - $ nvm default 22: this command with make 22 the new default node version
-- Once that is done, you can see if node is then using the correct version: $ node --version
+  - $ nvm default 22: this command will make 22 the new default node version
+- Once that is done, to make sure that it is the correct version run: $ node --version
 - The next step would be to set up all environment variables
 - create a file .env in the root directory of your project
 - on the same level as docker-compose.yaml
@@ -65,6 +65,7 @@ NEXT_APP_GOOGLE_CLIENT_ID and NEXT_APP_GOOGLE_SECRET_KEY environment variable
 
 - Set up [Google Authentication](https://analytify.io/get-google-client-id-and-client-secret/)
 - This needs to be set up in the Google developer console
+- Call this new Project based on the project that you are creating
 - NEXT_APP_GOOGLE_CLIENT_ID: client id
 - NEXT_APP_GOOGLE_SECRET_KEY: secret key
 - copy and paste it in the environment variable
@@ -87,9 +88,10 @@ NEXTAUTH_URL environment variable
 Note: make sure that all environment variables are in quotes
 
 - Once nvm has been setup for node version 22
-- pnpm is set up and installed globally
+- install pnpm globally; this is the package manager that I am using for this project
+- $ npm install -g pnpm: this is the command to install pnpm globally
 - To start this project, make sure that Docker Desktop is up and running
-- and run the following command: $ pnpm run server
+- and run the following command: $ pnpm dev
 - this will install and run the project, 
 - at the same time, it will also run the migrations for the databases
 - once that running process has finished, open up a browser
@@ -118,6 +120,7 @@ Note: $ symbol in front is not part of the command it is to show that it is a co
 - Install docker desktop from the following [link](https://docs.docker.com/desktop/install/mac-install/)
 
 I haven't been able to test on a MacBook Yet
+But, strictly speaking, the setup process should be the same as Linux
 
 ### [Node Version Manager](#getting-started)
 
@@ -145,7 +148,7 @@ To install pnpm run the following command: $ npm install -g pnpm
 Commands that can be used with PNPM:
 
 - pnpm run script: this will run the script that is defined in package.json, a script is the name of the script
-- pnpm store prune: this will remove all node modules that are not attached to any projects, if you delete node_modules and pnpm lock file run this command after wards
+- : this will remove all node modules that are not attached to any projects, if you delete node_modules and pnpm lock file run this command after wards
 - pnpm install: install all packages from package.json
 - pnpm add package: adds the package that you want to install
 
