@@ -1,8 +1,13 @@
+// node packages
+import { scrypt, randomFill, createCipheriv } from "crypto";
+
+// next auth packages
 import NextAuth from "next-auth";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import prisma from "@/lib/prisma";
 import GoogleProvider from "next-auth/providers/google";
-import { scrypt, randomFill, createCipheriv } from "crypto";
+
+// lib directory
+import prisma from "@/lib/prisma";
 
 const handler = NextAuth({
   adapter: PrismaAdapter(prisma),
@@ -25,8 +30,6 @@ const handler = NextAuth({
       return session;
     },
     async signIn({ user }) {
-      console.log("user", user);
-
       const algorithm = "aes-192-cbc";
       const password = process.env.NEXTAUTH_SECRET;
 
@@ -36,20 +39,20 @@ const handler = NextAuth({
         randomFill(new Uint8Array(16), async (err, iv) => {
           if (err) throw err;
 
+          // encrypts users name for storing to database
           const nameCipher = createCipheriv(algorithm, key, iv);
           let name = nameCipher.update(user.name, "utf8", "hex");
           name += nameCipher.final("hex");
-          console.log("name", name);
 
           randomFill(new Uint8Array(16), async (err, ivEmail) => {
             if (err) throw err;
 
+            // encrypts email address for storing to database
             const emailCipher = createCipheriv(algorithm, key, ivEmail);
             let email = emailCipher.update(user.email, "utf8", "hex");
             email += emailCipher.final("hex");
 
-            console.log("email", email);
-
+            // updates encrypted name and email address with Its iv for a database
             await prisma.user.update({
               where: { email: user.email },
               data: {
