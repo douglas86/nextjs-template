@@ -2,40 +2,7 @@ import NextAuth from "next-auth";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma from "@/lib/prisma";
 import GoogleProvider from "next-auth/providers/google";
-import { scrypt, randomFill, createCipheriv, createDecipheriv } from "crypto";
-
-const encryptData = async (data, password) => {
-  return new Promise((resolve, reject) => {
-    scrypt(password, "salt", 24, (err, key) => {
-      if (err) reject(err);
-
-      randomFill(new Uint8Array(16), (err, iv) => {
-        if (err) reject(err);
-
-        const cipher = createCipheriv("aes-192-cbc", key, iv);
-        let encrypted = cipher.update(data, "utf8", "hex");
-        encrypted += cipher.final("hex");
-        resolve({ encryptedData: encrypted, iv: iv.toString("hex") });
-      });
-    });
-  });
-};
-
-const decryptData = async (encryptedData, ivHex, password) => {
-  return new Promise((resolve, reject) => {
-    scrypt(password, "salt", 24, (err, key) => {
-      console.log("error1", err);
-      if (err) reject(err);
-
-      const iv = Buffer.from(ivHex, "hex");
-      const decipher = createDecipheriv("aes-192-cbc", key, iv);
-      let decrypted = decipher.update(encryptedData, "hex", "utf8");
-      decrypted += decipher.final("utf8");
-      console.log("decrypted", decrypted);
-      resolve(decrypted);
-    });
-  });
-};
+import { scrypt, randomFill, createCipheriv } from "crypto";
 
 const handler = NextAuth({
   adapter: PrismaAdapter(prisma),
@@ -69,17 +36,29 @@ const handler = NextAuth({
         randomFill(new Uint8Array(16), async (err, iv) => {
           if (err) throw err;
 
-          const cipher = createCipheriv(algorithm, key, iv);
+          const nameCipher = createCipheriv(algorithm, key, iv);
+          let name = nameCipher.update(user.name, "utf8", "hex");
+          name += nameCipher.final("hex");
+          console.log("name", name);
 
-          let encrypted = cipher.update(user.name, "utf8", "hex");
-          encrypted += cipher.final("hex");
-          console.log("encrypted1", encrypted);
+          randomFill(new Uint8Array(16), async (err, ivEmail) => {
+            if (err) throw err;
 
-          await prisma.user.update({
-            where: { email: user.email },
-            data: {
-              name: encrypted,
-            },
+            const emailCipher = createCipheriv(algorithm, key, ivEmail);
+            let email = emailCipher.update(user.email, "utf8", "hex");
+            email += emailCipher.final("hex");
+
+            console.log("email", email);
+
+            await prisma.user.update({
+              where: { email: user.email },
+              data: {
+                name,
+                email,
+                ivName: iv.toString(),
+                ivEmail: ivEmail.toString(),
+              },
+            });
           });
         });
       });
