@@ -1,13 +1,11 @@
 "use client";
 
-import Image from "next/image";
-import styles from "./page.module.css";
-import useFetch from "@/hooks/useFetch";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import InfiniteScroll from "react-infinite-scroll-component";
+import { useSession } from "next-auth/react";
+import { spinner } from "@/components/atom";
 
 export default function Home() {
+  const { data } = useSession();
+
   // const [items, setItems] = useState([]);
   // const [hasMore, setHasMore] = useState(true);
   // const [index, setIndex] = useState(10);
@@ -39,8 +37,15 @@ export default function Home() {
   // console.log("items", items);
 
   return (
-    <main className={styles.main}>
-      <p className="text-3xl font-bold uppercase">Hello World</p>
+    <main>
+      {data ? (
+        <h1 className="text-3xl text-center p-5 font-bold">
+          Welcome back {data.user.name}
+        </h1>
+      ) : (
+        spinner()
+      )}
+
       {/*<InfiniteScroll*/}
       {/*  next={fetchMoreData}*/}
       {/*  hasMore={hasMore}*/}

@@ -32,8 +32,6 @@ const handler = NextAuth({
             if (err) reject(err);
 
             const iv = Buffer.from(ivHex, "hex");
-            console.log("IV Length", iv.length);
-            console.log("IV Hex", ivHex);
             const decipher = createDecipheriv("aes-192-cbc", key, iv);
             let decrypted = decipher.update(encryptedData, "hex", "utf8");
             decrypted += decipher.final("utf8");
@@ -64,8 +62,6 @@ const handler = NextAuth({
         );
         const ivEmailHex = emailHexArray.join("");
 
-        console.log("user", user);
-
         const originalName = await decryptData(
           user.name,
           ivNameHex,
@@ -77,17 +73,14 @@ const handler = NextAuth({
           process.env.NEXTAUTH_SECRET,
         );
 
-        console.log("originalName", originalName);
-        console.log("originalEmail", originalEmail);
-
         return { name: originalName, email: originalEmail };
       };
 
-      getOriginalUserData(user.email)
-        .then(() => console.log("Decryption successfully"))
+      const { name, email } = await getOriginalUserData(user.email)
+        .then((res) => res)
         .catch((err) => console.log("Decryption failed: ", err.message));
 
-      return { user: { id: user.id, image: user.image } };
+      return { user: { id: user.id, image: user.image, name, email } };
     },
     async signIn({ user }) {
       const algorithm = "aes-192-cbc";

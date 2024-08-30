@@ -33,7 +33,7 @@ const Header = () => {
     return classes.filter(Boolean).join(" ");
   }
 
-  console.log("session1", data);
+  console.log("session", data);
 
   return (
     <header className="header">
