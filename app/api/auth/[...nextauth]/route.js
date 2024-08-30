@@ -1,5 +1,5 @@
 // node packages
-import { scrypt, randomFill, createCipheriv } from "crypto";
+import { scrypt, randomFill, createCipheriv, createDecipheriv } from "crypto";
 
 // next auth packages
 import NextAuth from "next-auth";
@@ -25,9 +25,69 @@ const handler = NextAuth({
       }
       return token;
     },
-    async session({ session, user }) {
-      session.user.id = user.id;
-      return session;
+    async session({ user }) {
+      const decryptData = async (encryptedData, ivHex, password) => {
+        return new Promise((resolve, reject) => {
+          scrypt(password, "salt", 24, (err, key) => {
+            if (err) reject(err);
+
+            const iv = Buffer.from(ivHex, "hex");
+            console.log("IV Length", iv.length);
+            console.log("IV Hex", ivHex);
+            const decipher = createDecipheriv("aes-192-cbc", key, iv);
+            let decrypted = decipher.update(encryptedData, "hex", "utf8");
+            decrypted += decipher.final("utf8");
+
+            resolve(decrypted);
+          });
+        });
+      };
+
+      const getOriginalUserData = async (userEmail) => {
+        const user = await prisma.user.findUnique({
+          where: { email: userEmail },
+        });
+
+        if (!user || !user.ivName || !user.ivEmail) {
+          throw new Error("User or IV not found.");
+        }
+
+        const ivNameArray = user.ivName.split(",");
+        const nameHexArray = ivNameArray.map((num) =>
+          parseInt(num, 10).toString(16).padStart(2, "0"),
+        );
+        const ivNameHex = nameHexArray.join("");
+
+        const ivEmailArray = user.ivEmail.split(",");
+        const emailHexArray = ivEmailArray.map((num) =>
+          parseInt(num, 10).toString(16).padStart(2, "0"),
+        );
+        const ivEmailHex = emailHexArray.join("");
+
+        console.log("user", user);
+
+        const originalName = await decryptData(
+          user.name,
+          ivNameHex,
+          process.env.NEXTAUTH_SECRET,
+        );
+        const originalEmail = await decryptData(
+          user.email,
+          ivEmailHex,
+          process.env.NEXTAUTH_SECRET,
+        );
+
+        console.log("originalName", originalName);
+        console.log("originalEmail", originalEmail);
+
+        return { name: originalName, email: originalEmail };
+      };
+
+      getOriginalUserData(user.email)
+        .then(() => console.log("Decryption successfully"))
+        .catch((err) => console.log("Decryption failed: ", err.message));
+
+      return { user: { id: user.id, image: user.image } };
     },
     async signIn({ user }) {
       const algorithm = "aes-192-cbc";
@@ -44,6 +104,8 @@ const handler = NextAuth({
           let name = nameCipher.update(user.name, "utf8", "hex");
           name += nameCipher.final("hex");
 
+          const ivHex = iv.toString("hex");
+
           randomFill(new Uint8Array(16), async (err, ivEmail) => {
             if (err) throw err;
 
@@ -52,14 +114,16 @@ const handler = NextAuth({
             let email = emailCipher.update(user.email, "utf8", "hex");
             email += emailCipher.final("hex");
 
+            const ivEmailHex = ivEmail.toString("hex");
+
             // updates encrypted name and email address with Its iv for a database
             await prisma.user.update({
               where: { email: user.email },
               data: {
                 name,
                 email,
-                ivName: iv.toString(),
-                ivEmail: ivEmail.toString(),
+                ivName: ivHex,
+                ivEmail: ivEmailHex,
               },
             });
           });
