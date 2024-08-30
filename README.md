@@ -151,6 +151,8 @@ Commands that can be used with PNPM:
 - : this will remove all node modules that are not attached to any projects, if you delete node_modules and pnpm lock file run this command after wards
 - pnpm install: install all packages from package.json
 - pnpm add package: adds the package that you want to install
+- pnpm exec prisma generate: this will generate the data in your prisma schema
+- pnpm exec prisma migrate dev: this will migrate the database
 
 ## [Additional Resources](#table-of-content)
 
