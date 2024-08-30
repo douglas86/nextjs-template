@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useSession, signIn, signOut } from "next-auth/react";
+import Link from "next/link";
 
 import { button } from "@/components/atom";
 import Customer from "@/public/Customer.png";
@@ -23,7 +24,7 @@ const Header = () => {
   const [currentPage, setCurrentPage] = useState("Dashboard");
 
   const navigation = [
-    { name: "Dashboard", href: "#", current: currentPage === "Dashboard" },
+    { name: "Swagger", href: "/swagger", current: currentPage === "Swagger" },
     { name: "Team", href: "#", current: currentPage === "Team" },
     { name: "Projects", href: "#", current: currentPage === "Projects" },
     { name: "Calendar", href: "#", current: currentPage === "Calendar" },
@@ -71,7 +72,7 @@ const Header = () => {
               <div className="hidden sm:ml-6 sm:block">
                 <div className="flex space-x-4">
                   {navigation.map((item) => (
-                    <a
+                    <Link
                       key={item.name}
                       href={item.href}
                       aria-current={item.current ? "page" : undefined}
@@ -84,7 +85,7 @@ const Header = () => {
                       )}
                     >
                       {item.name}
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </div>
