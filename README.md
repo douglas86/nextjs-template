@@ -148,7 +148,7 @@ To install pnpm run the following command: $ npm install -g pnpm
 Commands that can be used with PNPM:
 
 - pnpm run script: this will run the script that is defined in package.json, a script is the name of the script
-- : this will remove all node modules that are not attached to any projects, if you delete node_modules and pnpm lock file run this command after wards
+- : this will remove all node modules that are not attached to any projects if you delete node_modules and pnpm lock file runs this command after wards
 - pnpm install: install all packages from package.json
 - pnpm add package: adds the package that you want to install
 - pnpm exec prisma generate: this will generate the data in your prisma schema
