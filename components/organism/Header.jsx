@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
 import Link from "next/link";
 
 import { button } from "@/components/atom";
@@ -18,9 +18,10 @@ import {
 } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
+import useUser from "@/hooks/useUser";
 
 const Header = () => {
-  const { data } = useSession();
+  const user = useUser();
   const [currentPage, setCurrentPage] = useState("Dashboard");
 
   const navigation = [
@@ -34,7 +35,7 @@ const Header = () => {
     return classes.filter(Boolean).join(" ");
   }
 
-  console.log("session", data);
+  console.log("user", user);
 
   return (
     <header className="header">
@@ -58,16 +59,19 @@ const Header = () => {
             </div>
             <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
               <div className="flex flex-shrink-0 items-center">
-                <Image
-                  src={
-                    "https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                  }
-                  alt={"Your Company"}
-                  width={0}
-                  height={0}
-                  className="h-8 w-auto"
-                  unoptimized={true}
-                />
+                <Link href="/">
+                  <Image
+                    src={
+                      "https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                    }
+                    alt={"Your Company"}
+                    width={0}
+                    height={0}
+                    className="h-8 w-auto"
+                    unoptimized={true}
+                    priority={true}
+                  />
+                </Link>
               </div>
               <div className="hidden sm:ml-6 sm:block">
                 <div className="flex space-x-4">
@@ -106,7 +110,7 @@ const Header = () => {
                   <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                     <span className="absolute -inset-1.5" />
                     <span className="sr-only">Open user menu</span>
-                    {data === null ? (
+                    {user === null ? (
                       <Image
                         src={Customer}
                         alt="No customer"
@@ -117,7 +121,7 @@ const Header = () => {
                       />
                     ) : (
                       <Image
-                        src={data.user.image}
+                        src={user.image}
                         alt=""
                         className="h-8 w-8 rounded-full"
                         width={0}
@@ -131,7 +135,7 @@ const Header = () => {
                   transition
                   className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
                 >
-                  {data === null ? (
+                  {user ? (
                     <MenuItem>
                       <a
                         href="#"

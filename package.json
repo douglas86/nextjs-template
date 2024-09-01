@@ -14,7 +14,7 @@
     "create-db": "docker-compose up -d database test_database",
     "database": "pnpm run create-db && sleep 5 && pnpm run migrate",
     "app": "pnpm store prune && pnpm install && sleep 5 && pnpm run migrate && echo '\\033[1;31mPlease wait while we migrate the database\\033[0m' && next dev --turbo",
-    "dev": "concurrently \"pnpm run database\" \"pnpm run app\"",
+    "dev": "pnpm install -g concurrently && concurrently \"pnpm run database\" \"pnpm run app\"",
     "prisma": "npx prisma studio",
     "cypress": "npx cypress open"
   },
