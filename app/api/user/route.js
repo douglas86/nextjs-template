@@ -11,5 +11,9 @@ export const GET = async (requests) => {
     take: take(searchParams),
   });
 
-  return NextResponse.json({ message: "ok", data, length });
+  return NextResponse.json({
+    message: "You have successfully fetched data from database",
+    data,
+    length,
+  });
 };
