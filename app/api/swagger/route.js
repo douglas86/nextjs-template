@@ -1,7 +1,13 @@
-import swaggerSpec from "@/lib/swagger";
+import { NextResponse } from "next/server";
+import path from "path";
+import { promises as fs } from "fs";
 
-export async function GET(request) {
-  return new Response(JSON.stringify(swaggerSpec), {
-    headers: { "Content-Type": "application/json" },
+export const GET = async () => {
+  const yamlFilePath = path.join(process.cwd(), "public", "swagger.yaml");
+  const yamlContent = await fs.readFile(yamlFilePath, "utf8");
+  return new NextResponse(yamlContent, {
+    headers: {
+      "Content-Type": "application/json",
+    },
   });
-}
+};
