@@ -22,7 +22,7 @@ import useUser from "@/hooks/useUser";
 
 const Header = () => {
   const user = useUser();
-  const [currentPage, setCurrentPage] = useState("Dashboard");
+  const [currentPage, setCurrentPage] = useState("");
 
   const navigation = [
     { name: "Swagger", href: "/swagger", current: currentPage === "Swagger" },
