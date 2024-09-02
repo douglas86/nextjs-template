@@ -1,0 +1,25 @@
+openapi: 3.0.0
+info:
+  title: Next.js API
+  description: API documentation for the Next.js app
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+paths:
+  /api/user:
+    get:
+      summary: Returns users from database
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  schema:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: "ok"
