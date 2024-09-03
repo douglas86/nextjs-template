@@ -113,6 +113,12 @@ Note: $ symbol in front is not part of the command it is to show that it is a co
 
 - Install docker desktop from the following [link](https://docs.docker.com/desktop/install/windows-install/)
 - Install [wsl](https://techcommunity.microsoft.com/t5/windows-11/how-to-install-the-linux-windows-subsystem-in-windows-11/m-p/2701207) this will help with giving you Linux Superpowers on a Windows Machine
+- Ensure your Docker desktop installation is connected to your WSL install
+  - Open Docker Desktop settings:
+  - Go to the "Settings" gear icon.
+  - Navigate to the "Resources" section and then to "WSL Integration."
+  - Enable the "WSL 2 based engine."
+  - You'll see a list of your WSL distributions. Enable integration with the specific distributions you want to use with Docker.
 - Once wsl has been installed, see instructions on installing [nvm](#node-version-manager)
 
 ### [Instructions for Mac](#getting-started)
