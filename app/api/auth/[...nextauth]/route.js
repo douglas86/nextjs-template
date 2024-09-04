@@ -1,5 +1,5 @@
 // node packages
-import { scrypt, randomFill, createCipheriv, createDecipheriv } from "crypto";
+import { createCipheriv, randomFill, scrypt } from "crypto";
 
 // next auth packages
 import NextAuth from "next-auth";
@@ -8,6 +8,7 @@ import GoogleProvider from "next-auth/providers/google";
 
 // lib directory
 import prisma from "@/lib/prisma";
+import { decryptUserData } from "@/utils/API";
 
 const handler = NextAuth({
   adapter: PrismaAdapter(prisma),
@@ -26,61 +27,7 @@ const handler = NextAuth({
       return token;
     },
     async session({ user }) {
-      const decryptData = async (encryptedData, ivHex, password) => {
-        return new Promise((resolve, reject) => {
-          scrypt(password, "salt", 24, (err, key) => {
-            if (err) reject(err);
-
-            const iv = Buffer.from(ivHex, "hex");
-            const decipher = createDecipheriv("aes-192-cbc", key, iv);
-            let decrypted = decipher.update(encryptedData, "hex", "utf8");
-            decrypted += decipher.final("utf8");
-
-            resolve(decrypted);
-          });
-        });
-      };
-
-      const getOriginalUserData = async (userEmail) => {
-        const user = await prisma.user.findUnique({
-          where: { email: userEmail },
-        });
-
-        if (!user || !user.ivName || !user.ivEmail) {
-          throw new Error("User or IV not found.");
-        }
-
-        const ivNameArray = user.ivName.split(",");
-        const nameHexArray = ivNameArray.map((num) =>
-          parseInt(num, 10).toString(16).padStart(2, "0"),
-        );
-        const ivNameHex = nameHexArray.join("");
-
-        const ivEmailArray = user.ivEmail.split(",");
-        const emailHexArray = ivEmailArray.map((num) =>
-          parseInt(num, 10).toString(16).padStart(2, "0"),
-        );
-        const ivEmailHex = emailHexArray.join("");
-
-        const originalName = await decryptData(
-          user.name,
-          ivNameHex,
-          process.env.NEXTAUTH_SECRET,
-        );
-        const originalEmail = await decryptData(
-          user.email,
-          ivEmailHex,
-          process.env.NEXTAUTH_SECRET,
-        );
-
-        return { name: originalName, email: originalEmail };
-      };
-
-      const { name, email } = await getOriginalUserData(user.email)
-        .then((res) => res)
-        .catch((err) => console.log("Decryption failed: ", err.message));
-
-      return { user: { id: user.id, image: user.image, name, email } };
+      return await decryptUserData(user);
     },
     async signIn({ user }) {
       const algorithm = "aes-192-cbc";
