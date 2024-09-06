@@ -1,6 +1,3 @@
-// node packages
-import crypto from "crypto";
-
 // next auth packages
 import NextAuth from "next-auth";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
@@ -8,37 +5,11 @@ import GoogleProvider from "next-auth/providers/google";
 
 // lib directory
 import prisma from "@/lib/prisma";
-import { secret_key, secret_iv, algorithm } from "@/lib/keys";
+import { secret_key } from "@/lib/keys";
 import { google_id, google_secret } from "@/lib/keys";
 
-const key = crypto
-  .createHash("sha256")
-  .update(secret_key)
-  .digest("hex")
-  .substring(0, 32);
-
-const encryptionIV = crypto
-  .createHash("sha512")
-  .update(secret_iv)
-  .digest("hex")
-  .substring(0, 16);
-
-const encryptData = async (data) => {
-  const cipher = crypto.createCipheriv(algorithm, key, encryptionIV);
-  return Buffer.from(
-    cipher.update(data, "utf8", "hex") + cipher.final("hex"),
-  ).toString("base64");
-};
-
-const decryptData = async (encryptedData) => {
-  const buff = Buffer.from(encryptedData, "base64");
-  const decipher = crypto.createDecipheriv(algorithm, key, encryptionIV);
-
-  return (
-    decipher.update(buff.toString("utf8"), "hex", "utf8") +
-    decipher.final("utf8")
-  );
-};
+// utils directory
+import { encryptData, decryptData } from "@/utils/API";
 
 const handler = NextAuth({
   adapter: PrismaAdapter(prisma),
