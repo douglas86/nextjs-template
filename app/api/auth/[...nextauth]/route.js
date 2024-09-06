@@ -59,27 +59,12 @@ const handler = NextAuth({
       }
       return token;
     },
-    async session({ session, user }) {
-      // const finding = await prisma.user.findUnique({
-      //   where: { id: user.id - 1 },
-      // });
-      //
-      // console.log("user", user);
-      //
-      // await decryptData(finding.name)
-      //   .then((res) => {
-      //     console.log("res1", res);
-      //   })
-      //   .catch((err) => {
-      //     console.log("err", err);
-      //   });
-      //
-      // console.log("finding", finding);
-
+    async session({ user }) {
+      // find current user email address
       const finding = user.email.indexOf("@gmail.com");
 
-      console.log("finding", finding);
-
+      // if current users email address is found,
+      // then encrypt name and email address
       if (finding !== -1) {
         await prisma.user.update({
           where: { id: user.id },
@@ -90,27 +75,17 @@ const handler = NextAuth({
         });
       }
 
-      const t = user.name;
-      console.log("t", typeof t);
-
-      const decode = await decryptData(user.name);
-
-      console.log("decode", decode);
-      console.log("type decode", typeof decode);
-
       return {
         user: {
           id: user.id,
-          name: await decryptData(user.name),
-          email: await decryptData(user.email),
+          name: finding > -1 ? user.name : await decryptData(user.name),
+          email: finding > -1 ? user.email : await decryptData(user.email),
           image: user.image,
         },
       };
     },
-    async signIn({ user }) {
-      const finding = user.email.indexOf("@gmail.com");
-
-      return user;
+    async signIn() {
+      return true;
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
