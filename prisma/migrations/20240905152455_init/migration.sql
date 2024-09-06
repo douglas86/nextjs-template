@@ -1,18 +1,18 @@
-/*
-  Warnings:
+-- CreateTable
+CREATE TABLE "User" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT,
+    "ivName" TEXT,
+    "email" TEXT NOT NULL,
+    "ivEmail" TEXT,
+    "emailVerified" TIMESTAMP(3),
+    "image" TEXT,
+    "role" TEXT NOT NULL DEFAULT 'user',
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
-  - A unique constraint covering the columns `[emailVerified]` on the table `User` will be added. If there are existing duplicate values, this will fail.
-  - Added the required column `email` to the `User` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `emailVerified` to the `User` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `updatedAt` to the `User` table without a default value. This is not possible if the table is not empty.
-
-*/
--- AlterTable
-ALTER TABLE "User" ADD COLUMN     "email" TEXT NOT NULL,
-ADD COLUMN     "emailVerified" TEXT NOT NULL,
-ADD COLUMN     "image" TEXT,
-ADD COLUMN     "updatedAt" TIMESTAMP(3) NOT NULL,
-ALTER COLUMN "name" DROP NOT NULL;
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+);
 
 -- CreateTable
 CREATE TABLE "Account" (
@@ -35,11 +35,14 @@ CREATE TABLE "Account" (
 
 -- CreateTable
 CREATE TABLE "Session" (
-    "SessionToken" TEXT NOT NULL,
+    "id" SERIAL NOT NULL,
+    "sessionToken" TEXT NOT NULL,
     "userId" INTEGER NOT NULL,
     "expires" TIMESTAMP(3) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Session_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -58,7 +61,7 @@ CREATE TABLE "Authenticator" (
     "providerAccountId" TEXT NOT NULL,
     "credentialPublicKey" TEXT NOT NULL,
     "counter" INTEGER NOT NULL,
-    "credentialDeviceTye" TEXT NOT NULL,
+    "credentialDeviceType" TEXT NOT NULL,
     "credentialBackedUp" BOOLEAN NOT NULL,
     "transports" TEXT,
 
@@ -66,13 +69,13 @@ CREATE TABLE "Authenticator" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Session_SessionToken_key" ON "Session"("SessionToken");
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Session_sessionToken_key" ON "Session"("sessionToken");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Authenticator_credentialID_key" ON "Authenticator"("credentialID");
-
--- CreateIndex
-CREATE UNIQUE INDEX "User_emailVerified_key" ON "User"("emailVerified");
 
 -- AddForeignKey
 ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

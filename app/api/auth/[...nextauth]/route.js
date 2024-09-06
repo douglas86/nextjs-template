@@ -1,5 +1,5 @@
 // node packages
-import { createCipheriv, randomFill, scrypt } from "crypto";
+import crypto from "crypto";
 
 // next auth packages
 import NextAuth from "next-auth";
@@ -8,7 +8,40 @@ import GoogleProvider from "next-auth/providers/google";
 
 // lib directory
 import prisma from "@/lib/prisma";
-import { decryptUserData, encryptUserData } from "@/utils/API";
+// import { decryptUserData, encryptUserData } from "@/utils/API";
+
+const secret_key = process.env.NEXTAUTH_SECRET;
+const secret_iv = "secretIV";
+const algorithm = "aes-256-cbc";
+
+const key = crypto
+  .createHash("sha256")
+  .update(secret_key)
+  .digest("hex")
+  .substring(0, 32);
+
+const encryptionIV = crypto
+  .createHash("sha512")
+  .update(secret_iv)
+  .digest("hex")
+  .substring(0, 16);
+
+const encryptData = async (data) => {
+  const cipher = crypto.createCipheriv(algorithm, key, encryptionIV);
+  return Buffer.from(
+    cipher.update(data, "utf8", "hex") + cipher.final("hex"),
+  ).toString("base64");
+};
+
+const decryptData = async (encryptedData) => {
+  const buff = Buffer.from(encryptedData, "base64");
+  const decipher = crypto.createDecipheriv(algorithm, key, encryptionIV);
+
+  return (
+    decipher.update(buff.toString("utf8"), "hex", "utf8") +
+    decipher.final("utf8")
+  );
+};
 
 const handler = NextAuth({
   adapter: PrismaAdapter(prisma),
@@ -26,11 +59,48 @@ const handler = NextAuth({
       }
       return token;
     },
-    async session({ user }) {
-      return await decryptUserData(user);
+    async session({ session }) {
+      const finding = await prisma.user.findUnique({
+        where: { id: 9 },
+      });
+
+      await decryptData(finding.name)
+        .then((res) => {
+          console.log("res1", res);
+        })
+        .catch((err) => {
+          console.log("err", err);
+        });
+
+      console.log("finding", finding);
+
+      return session;
     },
     async signIn({ user }) {
-      return await encryptUserData(user);
+      // return await encryptUserData(user);
+
+      console.log("user", user);
+
+      if (user) {
+        await prisma.user.create({
+          data: {
+            name: await encryptData(user.name),
+            email: await encryptData(user.email),
+            image: user.image,
+          },
+        });
+
+        return true;
+        // await prisma.user.update({
+        //   where: { email: user.email },
+        //   data: {
+        //     name: await encryptData(user.name),
+        //     email: await encryptData(user.email),
+        //   },
+        // });
+      } else {
+        return false;
+      }
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
