@@ -59,48 +59,58 @@ const handler = NextAuth({
       }
       return token;
     },
-    async session({ session }) {
-      const finding = await prisma.user.findUnique({
-        where: { id: 9 },
-      });
+    async session({ session, user }) {
+      // const finding = await prisma.user.findUnique({
+      //   where: { id: user.id - 1 },
+      // });
+      //
+      // console.log("user", user);
+      //
+      // await decryptData(finding.name)
+      //   .then((res) => {
+      //     console.log("res1", res);
+      //   })
+      //   .catch((err) => {
+      //     console.log("err", err);
+      //   });
+      //
+      // console.log("finding", finding);
 
-      await decryptData(finding.name)
-        .then((res) => {
-          console.log("res1", res);
-        })
-        .catch((err) => {
-          console.log("err", err);
-        });
+      const finding = user.email.indexOf("@gmail.com");
 
       console.log("finding", finding);
 
-      return session;
-    },
-    async signIn({ user }) {
-      // return await encryptUserData(user);
-
-      console.log("user", user);
-
-      if (user) {
-        await prisma.user.create({
+      if (finding !== -1) {
+        await prisma.user.update({
+          where: { id: user.id },
           data: {
             name: await encryptData(user.name),
             email: await encryptData(user.email),
-            image: user.image,
           },
         });
-
-        return true;
-        // await prisma.user.update({
-        //   where: { email: user.email },
-        //   data: {
-        //     name: await encryptData(user.name),
-        //     email: await encryptData(user.email),
-        //   },
-        // });
-      } else {
-        return false;
       }
+
+      const t = user.name;
+      console.log("t", typeof t);
+
+      const decode = await decryptData(user.name);
+
+      console.log("decode", decode);
+      console.log("type decode", typeof decode);
+
+      return {
+        user: {
+          id: user.id,
+          name: await decryptData(user.name),
+          email: await decryptData(user.email),
+          image: user.image,
+        },
+      };
+    },
+    async signIn({ user }) {
+      const finding = user.email.indexOf("@gmail.com");
+
+      return user;
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
