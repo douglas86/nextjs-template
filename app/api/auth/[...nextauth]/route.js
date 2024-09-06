@@ -10,9 +10,9 @@ import GoogleProvider from "next-auth/providers/google";
 import prisma from "@/lib/prisma";
 // import { decryptUserData, encryptUserData } from "@/utils/API";
 
-const secret_key = process.env.NEXTAUTH_SECRET;
-const secret_iv = "secretIV";
-const algorithm = "aes-256-cbc";
+const secret_key = process.env.NEXTAUTH_SECRET_KEY;
+const secret_iv = process.env.NEXTAUTH_SECRET_IV;
+const algorithm = process.env.NEXTAUTH_ALGORITHM;
 
 const key = crypto
   .createHash("sha256")
@@ -49,7 +49,7 @@ const handler = NextAuth({
     strategy: "database",
   },
   jwt: {
-    secret: process.env.NEXTAUTH_SECRET,
+    secret: process.env.NEXTAUTH_SECRET_KEY,
     encryption: false,
   },
   callbacks: {
@@ -88,7 +88,7 @@ const handler = NextAuth({
       return true;
     },
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET_KEY,
   providers: [
     GoogleProvider({
       clientId: process.env.NEXT_APP_GOOGLE_CLIENT_ID,
