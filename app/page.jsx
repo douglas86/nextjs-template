@@ -2,11 +2,10 @@
 
 import useUser from "@/hooks/useUser";
 import { spinner } from "@/components/atom";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const user = useUser();
-
-  console.log("user", user);
 
   return (
     <main>

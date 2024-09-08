@@ -17,9 +17,7 @@ datasource db {
 model User {
   id            Int             @id @default(autoincrement())
   name          String?
-  ivName        String?
   email         String          @unique
-  ivEmail       String?
   emailVerified DateTime?
   image         String?
   role          String          @default("user")
