@@ -39,11 +39,9 @@ const Header = () => {
   useEffect(() => {
     // stores users data to state store
     if (session) {
-      dispatch({ type: "UPDATE_USER", payload: session.user });
+      !user && dispatch({ type: "UPDATE_USER", payload: session.user });
     }
   }, [dispatch, session]);
-
-  console.log("s", user);
 
   return (
     <header className="header">
