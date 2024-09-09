@@ -5,17 +5,17 @@ import { createContext, useMemo, useReducer } from "react";
 import { rootReducers } from "@/context/rootReducers";
 
 const initialState = {
-  userReducer: null,
-  dataReducer: null,
-  formsReducer: null,
+  dataReducers: {},
+  formsReducers: {},
+  userReducers: {},
 };
 
 export const Context = createContext(initialState);
 
 const init = () => {
-  const { userReducer, dataReducer, formReducer } = initialState;
+  const { dataReducers, userReducers, formsReducers } = initialState;
 
-  return { userReducer, dataReducer, formReducer };
+  return { dataReducers, userReducers, formsReducers };
 };
 
 export const Provider = ({ children }) => {
