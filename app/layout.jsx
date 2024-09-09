@@ -2,6 +2,9 @@ import { Inter } from "next/font/google";
 import SessionProvider from "@/app/SessionWrapper";
 import { getServerSession } from "next-auth";
 import Header from "@/components/organism/Header";
+
+import { Provider } from "@/context/store";
+
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -18,8 +21,10 @@ export default async function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <SessionProvider session={session}>
-          <Header />
-          <main>{children}</main>
+          <Provider>
+            <Header />
+            <main>{children}</main>
+          </Provider>
         </SessionProvider>
       </body>
     </html>
