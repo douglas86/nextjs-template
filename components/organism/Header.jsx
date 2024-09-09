@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { signIn, signOut } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 
 import { button } from "@/components/atom";
@@ -17,12 +17,16 @@ import {
   MenuItems,
 } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useUser from "@/hooks/useUser";
+import useAppContext from "@/hooks/useAppContext";
 
 const Header = () => {
   const user = useUser();
+  const { dispatch, user: s } = useAppContext();
   const [currentPage, setCurrentPage] = useState("");
+
+  const { data: session } = useSession();
 
   const navigation = [
     { name: "Swagger", href: "/swagger", current: currentPage === "Swagger" },
@@ -34,6 +38,13 @@ const Header = () => {
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
+
+  useEffect(() => {
+    // stores users data to state store
+    if (session) {
+      dispatch({ type: "UPDATE_USER", payload: session.user });
+    }
+  }, [dispatch, session]);
 
   return (
     <header className="header">
