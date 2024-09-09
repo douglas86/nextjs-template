@@ -26,10 +26,17 @@ const Header = () => {
   const { data: session } = useSession();
 
   const navigation = [
-    { name: "Swagger", href: "/swagger", current: currentPage === "Swagger" },
-    { name: "Team", href: "#", current: currentPage === "Team" },
-    { name: "Projects", href: "#", current: currentPage === "Projects" },
-    { name: "Calendar", href: "#", current: currentPage === "Calendar" },
+    {
+      id: 1,
+      name: "Swagger",
+      href: "/swagger",
+      current: currentPage === "Swagger",
+      development: true,
+    },
+    { id: 2, name: "About", href: "about", current: currentPage === "About" },
+    { id: 3, name: "Team", href: "#", current: currentPage === "Team" },
+    { id: 4, name: "Projects", href: "#", current: currentPage === "Projects" },
+    { id: 5, name: "Calendar", href: "#", current: currentPage === "Calendar" },
   ];
 
   function classNames(...classes) {
@@ -82,20 +89,39 @@ const Header = () => {
               <div className="hidden sm:ml-6 sm:block">
                 <div className="flex space-x-4">
                   {navigation.map((item) => (
-                    <Link
-                      key={item.name}
-                      href={item.href}
-                      aria-current={item.current ? "page" : undefined}
-                      onClick={() => setCurrentPage(item.name)}
-                      className={classNames(
-                        item.current
-                          ? "bg-gray-900 text-white"
-                          : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                        "rounded-md px-3 py-2 text-sm font-medium",
+                    <div key={item.id}>
+                      {item.development ? (
+                        process.env.NODE_ENV === "development" && (
+                          <Link
+                            href={item.href}
+                            aria-current={item.current ? "page" : undefined}
+                            onClick={() => setCurrentPage(item.name)}
+                            className={classNames(
+                              item.current
+                                ? "bg-gray-900 text-white"
+                                : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                              "rounded-md px-3 py-2 text-sm font-medium",
+                            )}
+                          >
+                            {item.name}
+                          </Link>
+                        )
+                      ) : (
+                        <Link
+                          href={item.href}
+                          aria-current={item.current ? "page" : undefined}
+                          onClick={() => setCurrentPage(item.name)}
+                          className={classNames(
+                            item.current
+                              ? "bg-gray-900 text-white"
+                              : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                            "rounded-md px-3 py-2 text-sm font-medium",
+                          )}
+                        >
+                          {item.name}
+                        </Link>
                       )}
-                    >
-                      {item.name}
-                    </Link>
+                    </div>
                   ))}
                 </div>
               </div>
