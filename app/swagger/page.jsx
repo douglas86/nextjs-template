@@ -17,9 +17,3 @@ const SwaggerPage = () => {
 };
 
 export default SwaggerPage;
-
-// const SwaggerPage = () => {
-//   return <SwaggerUI url="/api/swagger" />;
-// };
-//
-// export default SwaggerPage;
