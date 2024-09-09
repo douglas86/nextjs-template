@@ -5,7 +5,6 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 
 import { button } from "@/components/atom";
-import Customer from "@/public/Customer.png";
 
 import {
   Disclosure,
@@ -18,11 +17,9 @@ import {
 } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
-import useUser from "@/hooks/useUser";
 import useAppContext from "@/hooks/useAppContext";
 
 const Header = () => {
-  // const user = useUser();
   const { dispatch, user } = useAppContext();
   const [currentPage, setCurrentPage] = useState("");
 
@@ -132,7 +129,7 @@ const Header = () => {
                       />
                     ) : (
                       <Image
-                        src={Customer}
+                        src="/Customer.png"
                         alt="No customer"
                         className="h-8 w-8 rounded-full"
                         width={0}

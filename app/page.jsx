@@ -1,12 +1,10 @@
 "use client";
 
-import useUser from "@/hooks/useUser";
 import { spinner } from "@/components/atom";
-import { useEffect, useState } from "react";
 import useAppContext from "@/hooks/useAppContext";
 
 export default function Home() {
-  const user = useUser();
+  const { user } = useAppContext();
 
   return (
     <main>

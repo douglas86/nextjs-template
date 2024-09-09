@@ -1,6 +1,5 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { Context } from "@/context/store";
-import { SessionContext, useSession } from "next-auth/react";
 
 const useAppContext = () => {
   const context = useContext(Context);
