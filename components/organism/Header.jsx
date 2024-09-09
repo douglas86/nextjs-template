@@ -1,11 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { signIn, signOut } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 
 import { button } from "@/components/atom";
-import Customer from "@/public/Customer.png";
 
 import {
   Disclosure,
@@ -17,23 +16,39 @@ import {
   MenuItems,
 } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { useState } from "react";
-import useUser from "@/hooks/useUser";
+import { useEffect, useState } from "react";
+import useAppContext from "@/hooks/useAppContext";
 
 const Header = () => {
-  const user = useUser();
+  const { dispatch, user } = useAppContext();
   const [currentPage, setCurrentPage] = useState("");
 
+  const { data: session } = useSession();
+
   const navigation = [
-    { name: "Swagger", href: "/swagger", current: currentPage === "Swagger" },
-    { name: "Team", href: "#", current: currentPage === "Team" },
-    { name: "Projects", href: "#", current: currentPage === "Projects" },
-    { name: "Calendar", href: "#", current: currentPage === "Calendar" },
+    {
+      id: 1,
+      name: "Swagger",
+      href: "/swagger",
+      current: currentPage === "Swagger",
+      development: true,
+    },
+    { id: 2, name: "About", href: "about", current: currentPage === "About" },
+    { id: 3, name: "Team", href: "#", current: currentPage === "Team" },
+    { id: 4, name: "Projects", href: "#", current: currentPage === "Projects" },
+    { id: 5, name: "Calendar", href: "#", current: currentPage === "Calendar" },
   ];
 
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
+
+  useEffect(() => {
+    // stores users data to state store
+    if (session) {
+      !user && dispatch({ type: "UPDATE_USER", payload: session.user });
+    }
+  }, [dispatch, session]);
 
   return (
     <header className="header">
@@ -74,20 +89,39 @@ const Header = () => {
               <div className="hidden sm:ml-6 sm:block">
                 <div className="flex space-x-4">
                   {navigation.map((item) => (
-                    <Link
-                      key={item.name}
-                      href={item.href}
-                      aria-current={item.current ? "page" : undefined}
-                      onClick={() => setCurrentPage(item.name)}
-                      className={classNames(
-                        item.current
-                          ? "bg-gray-900 text-white"
-                          : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                        "rounded-md px-3 py-2 text-sm font-medium",
+                    <div key={item.id}>
+                      {item.development ? (
+                        process.env.NODE_ENV === "development" && (
+                          <Link
+                            href={item.href}
+                            aria-current={item.current ? "page" : undefined}
+                            onClick={() => setCurrentPage(item.name)}
+                            className={classNames(
+                              item.current
+                                ? "bg-gray-900 text-white"
+                                : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                              "rounded-md px-3 py-2 text-sm font-medium",
+                            )}
+                          >
+                            {item.name}
+                          </Link>
+                        )
+                      ) : (
+                        <Link
+                          href={item.href}
+                          aria-current={item.current ? "page" : undefined}
+                          onClick={() => setCurrentPage(item.name)}
+                          className={classNames(
+                            item.current
+                              ? "bg-gray-900 text-white"
+                              : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                            "rounded-md px-3 py-2 text-sm font-medium",
+                          )}
+                        >
+                          {item.name}
+                        </Link>
                       )}
-                    >
-                      {item.name}
-                    </Link>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -108,10 +142,10 @@ const Header = () => {
                   <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                     <span className="absolute -inset-1.5" />
                     <span className="sr-only">Open user menu</span>
-                    {user === null ? (
+                    {user ? (
                       <Image
-                        src={Customer}
-                        alt="No customer"
+                        src={user.image}
+                        alt=""
                         className="h-8 w-8 rounded-full"
                         width={0}
                         height={0}
@@ -119,8 +153,8 @@ const Header = () => {
                       />
                     ) : (
                       <Image
-                        src={user.image}
-                        alt=""
+                        src="/Customer.png"
+                        alt="No customer"
                         className="h-8 w-8 rounded-full"
                         width={0}
                         height={0}
@@ -133,7 +167,16 @@ const Header = () => {
                   transition
                   className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
                 >
-                  {user === null ? (
+                  {user ? (
+                    <MenuItem>
+                      <a
+                        href="#"
+                        className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
+                      >
+                        <button onClick={() => signOut()}>Sign Out</button>
+                      </a>
+                    </MenuItem>
+                  ) : (
                     <MenuItem>
                       <a
                         href="#"
@@ -142,17 +185,6 @@ const Header = () => {
                         <button onClick={() => signIn()}>Sign In</button>
                       </a>
                     </MenuItem>
-                  ) : (
-                    <>
-                      <MenuItem>
-                        <a
-                          href="#"
-                          className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
-                        >
-                          <button onClick={() => signOut()}>Sign Out</button>
-                        </a>
-                      </MenuItem>
-                    </>
                   )}
                 </MenuItems>
               </Menu>
