@@ -46,6 +46,29 @@ paths:
                 properties:
                   schema:
                     $ref: '#/components/schemas/User'
+  /api/test/user/create:
+    post:
+      tags:
+        - Test
+      summary: Creates users in database for when you want to test the users
+      parameters:
+        - name: amount
+          in: query
+          description: Add how many users you want to create in the database
+          required: false
+          schema:
+            type: string
+            default: 10
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  schema:
+                    $ref: '#/components/schemas/User'
 components:
   schemas:
     User:
