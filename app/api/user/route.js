@@ -1,78 +1,50 @@
 import { NextResponse } from "next/server";
-import { createCipheriv, createDecipheriv, randomFill, scrypt } from "crypto";
 
-const algorithm = "aes-192-cbc";
-const password = "123456";
+import prisma from "@/lib/prisma";
 
-const encryptData = async (data) => {
-  return new Promise((resolve, reject) => {
-    scrypt(password, "salt", 24, (err, key) => {
-      if (err) reject(err);
+import { decryptData, skip, take, filter } from "@/utils/API";
 
-      randomFill(new Uint8Array(16), async (err, iv) => {
-        if (err) throw err;
+/**
+ * GET request for users data stored in database
+ * @param req
+ * @returns {Promise<NextResponse<{data: Awaited<unknown>[], length: *, message: string}>>}
+ * @constructor
+ */
+export const GET = async (req) => {
+  const { searchParams } = new URL(req.url);
 
-        const cipher = createCipheriv(algorithm, key, iv);
-        let encrypt = cipher.update(data, "utf8", "hex");
-        encrypt = cipher.final("hex");
-
-        const ivHex = iv.toString("hex");
-
-        resolve({ encrypted: encrypt, key: ivHex });
-      });
-    });
+  // fetches number of documents in db
+  const length = await prisma.user.count({
+    where: {
+      role: filter(searchParams, "user"),
+    },
   });
-};
 
-const decryptData = async (encryptedData, hexKey) => {
-  const split = hexKey.split(",");
-  const arr = split.map((num) =>
-    parseInt(num, 10).toString(16).padStart(2, "0"),
+  // fetches users' data from db based
+  const userData = await prisma.user.findMany({
+    where: { role: filter(searchParams, "user") },
+    skip: skip(searchParams),
+    take: take(searchParams),
+  });
+
+  // decrypts data from userData
+  const data = await Promise.all(
+    userData.map(async (items) => {
+      return {
+        id: items.id,
+        name: await decryptData(items.name),
+        email: await decryptData(items.email),
+        image: items.image,
+        role: items.role,
+        createdAt: items.createdAt,
+        updatedAt: items.updatedAt,
+      };
+    }),
   );
-  const Hex = arr.join("");
-
-  return new Promise((resolve, reject) => {
-    scrypt(password, "salt", 24, (err, key) => {
-      if (err) reject(err);
-
-      const iv = Buffer.from(Hex, "hex");
-      const decipher = createDecipheriv("aes-192-cbc", key, iv);
-      let decrypted = decipher.update(encryptedData, "hex", "utf8");
-      decrypted += decipher.final("utf8");
-
-      resolve(decrypted);
-    });
-  });
-};
-
-export const GET = async () => {
-  const e = await encryptData("Douglas");
-  console.log("e", e);
-
-  const d = await decryptData(e.encrypted, e.key);
-  console.log("d", d);
 
   return NextResponse.json({
     message: "You have received the data successfully",
+    data,
+    length,
   });
 };
-
-// import prisma from "@/lib/prisma";
-// import { skip, take } from "@/utils/API";
-// import { NextResponse } from "next/server";
-//
-// export const GET = async (requests) => {
-//   const { searchParams } = new URL(requests.url);
-//
-//   const length = await prisma.user.count();
-//   const data = await prisma.user.findMany({
-//     skip: skip(searchParams),
-//     take: take(searchParams),
-//   });
-//
-//   return NextResponse.json({
-//     message: "You have successfully fetched data from database",
-//     data,
-//     length,
-//   });
-// };
