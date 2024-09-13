@@ -2,35 +2,11 @@ import prisma from "@/lib/prisma";
 import { response } from "@/utils/API/response";
 
 /**
- * @swagger
- * /api/user/delete/{id}:
- *  delete:
- *   tags: [Users]
- *   summary: Deletes user from database
- *   description: Returns deleted user from database
- *   parameters:
- *    - in: path
- *      name: id
- *      schema:
- *          type: integer
- *      required: true
- *      description: id of the user that you want to delete
- *   responses:
- *    200:
- *      description: successfully deletes the user
- *      content:
- *        application/json:
- *          schema:
- *            type: object
- *            properties:
- *              message:
- *                type: string
- *                description: Status message to reflecting deletion successfully
- *                example: Successfully deleted user
- *    404:
- *      description: user not found
- *    500:
- *      description: internal server error
+ * Deletes user based on ID
+ * @param request
+ * @param params
+ * @returns {Promise<Response>}
+ * @constructor
  */
 export async function DELETE(request, { params }) {
   const { id } = params;

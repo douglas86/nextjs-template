@@ -46,6 +46,34 @@ paths:
                 properties:
                   schema:
                     $ref: '#/components/schemas/User'
+  /api/user/delete/{id}:
+    delete:
+      tags:
+        - User
+      summary: Deletes user by database
+      parameters:
+        - name: id
+          in: path
+          description: Deletes user by id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully deleted user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  schema:
+                    $ref: '#/components/schemas/User'
+        '500':
+          description: Internal server error when trying to delete user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
   /api/test/user/create:
     post:
       tags:
