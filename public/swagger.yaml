@@ -97,6 +97,30 @@ paths:
                 properties:
                   schema:
                     $ref: '#/components/schemas/User'
+  /api/test/user/delete:
+    delete:
+      tags:
+        - Test
+      summary: Deletes all users except the first user
+      responses:
+        '200':
+          description: Successfully deleted all users except first user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  schema:
+                    $ref: '#/components/schemas/User'
+        '404':
+          description: No user Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  schema:
+                    $ref: '#/components/schemas/User'
 components:
   schemas:
     User:
