@@ -2,13 +2,19 @@ import { NextResponse } from "next/server";
 
 import prisma from "@/lib/prisma";
 
-import { decryptData, skip, take } from "@/utils/API";
+import { decryptData, skip, take, filter } from "@/utils/API";
 
 export const GET = async (req) => {
   const { searchParams } = new URL(req.url);
 
-  const length = await prisma.user.count();
+  const length = await prisma.user.count({
+    where: {
+      role: filter(searchParams, "user"),
+    },
+  });
+
   const userData = await prisma.user.findMany({
+    where: { role: filter(searchParams, "user") },
     skip: skip(searchParams),
     take: take(searchParams),
   });

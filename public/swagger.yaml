@@ -12,6 +12,16 @@ paths:
         - User
       summary: Returns users from database
       parameters:
+        - name: filter
+          in: query
+          description: Filters data based on role
+          required: false
+          schema:
+            type: string
+            enum:
+              - user
+              - admin
+            default: user
         - name: skip
           in: query
           description: How many records you want to skip
