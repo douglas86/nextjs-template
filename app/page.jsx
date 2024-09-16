@@ -3,13 +3,49 @@
 import { spinner } from "@/components/atom";
 
 import useAppContext from "@/hooks/useAppContext";
-import useFetch from "@/hooks/useFetch";
+import useSWRInfinite from "swr/infinite";
+import { useEffect, useRef } from "react";
+
+const fetcher = (url) => fetch(url).then((res) => res.json());
+const PAGE_SIZE = 10;
 
 export default function Home() {
   const { user } = useAppContext();
-  const data = useFetch("https://api.github.com/repos/vercel/swr");
 
-  console.log("data1", data);
+  const { data, size, setSize, isLoading } = useSWRInfinite(
+    (index) => `/api/user?take=${PAGE_SIZE}&skip=${index * PAGE_SIZE}`,
+    fetcher,
+  );
+
+  const issues = data ? [].concat(...data.map((page) => page.data)) : [];
+  const isLoadingMore =
+    isLoading || (size > 0 && data && typeof data[size - 1] === "undefined");
+  const isEmpty = data?.[0]?.length === 0;
+  const isReachingEnd =
+    isEmpty || (data && data[data.length - 1]?.data.length < PAGE_SIZE);
+
+  const loadMoreRef = useRef();
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !isLoadingMore && !isReachingEnd) {
+          setSize(size + 1);
+        }
+      },
+      { threshold: 1.0 },
+    );
+
+    if (loadMoreRef.current) {
+      observer.observe(loadMoreRef.current);
+    }
+
+    return () => {
+      if (loadMoreRef.current) {
+        observer.unobserve(loadMoreRef.current);
+      }
+    };
+  }, [isLoadingMore, isReachingEnd, size, setSize]);
 
   return (
     <main>
@@ -20,17 +56,16 @@ export default function Home() {
       ) : (
         spinner()
       )}
-      {data ? (
-        <div className="flex flex-col items-center justify-center">
-          <h1>{data.name}</h1>
-          <p>{data.description}</p>
-          <strong>👁 {data.subscribers_count}</strong>{" "}
-          <strong>✨ {data.stargazers_count}</strong>{" "}
-          <strong>🍴 {data.forks_count}</strong>
-        </div>
-      ) : (
-        spinner
-      )}
+      {issues.map((issue) => {
+        return (
+          <p key={issue.id} style={{ margin: "6px 0" }}>
+            - {issue.name}
+          </p>
+        );
+      })}
+      <div ref={loadMoreRef} />
+      {isLoadingMore && <p>Loading more issues...</p>}
+      {isReachingEnd && !isLoadingMore && <p>No more issues to load.</p>}
     </main>
   );
 }
