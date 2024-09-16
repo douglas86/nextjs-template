@@ -1,26 +1,16 @@
-import { useEffect, useState } from "react";
+import useSWR from "swr";
+
+import { spinner } from "@/components/atom";
 
 const useFetch = (url) => {
-  const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
+  const fetcher = (endpoint) => fetch(endpoint).then((res) => res.json());
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch(`/api/${url}`);
-      return res.json();
-    };
+  const { data, error, isLoading } = useSWR(url, fetcher);
 
-    fetchData()
-      .then((res) => setData(res))
-      .catch((err) => setError(err));
-  }, []);
+  if (error) return "An error occurred.";
+  if (isLoading) return spinner();
 
-  return {
-    data: data ? data.data : null,
-    length: data ? data.length : null,
-    message: data ? data.message : null,
-    error,
-  };
+  return data;
 };
 
 export default useFetch;

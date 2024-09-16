@@ -1,23 +1,15 @@
 "use client";
 
 import { spinner } from "@/components/atom";
+
 import useAppContext from "@/hooks/useAppContext";
-import useSWR from "swr";
+import useFetch from "@/hooks/useFetch";
 
 export default function Home() {
   const { user } = useAppContext();
+  const data = useFetch("https://api.github.com/repos/vercel/swr");
 
-  const fetcher = (url) => fetch(url).then((res) => res.json());
-
-  const { data, error, isLoading } = useSWR(
-    "https://api.github.com/repos/vercel/swr",
-    fetcher,
-  );
-
-  if (error) return "An error occurred";
-  if (isLoading) return "Loading...";
-
-  console.log("data", data);
+  console.log("data1", data);
 
   return (
     <main>
@@ -27,6 +19,17 @@ export default function Home() {
         </h1>
       ) : (
         spinner()
+      )}
+      {data ? (
+        <div className="flex flex-col items-center justify-center">
+          <h1>{data.name}</h1>
+          <p>{data.description}</p>
+          <strong>👁 {data.subscribers_count}</strong>{" "}
+          <strong>✨ {data.stargazers_count}</strong>{" "}
+          <strong>🍴 {data.forks_count}</strong>
+        </div>
+      ) : (
+        spinner
       )}
     </main>
   );
