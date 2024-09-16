@@ -1,10 +1,16 @@
 "use client";
 
 import { spinner } from "@/components/atom";
+
 import useAppContext from "@/hooks/useAppContext";
+import useScroll from "@/hooks/useScroll";
 
 export default function Home() {
   const { user } = useAppContext();
+  const { issues, loadMoreRef, isLoadingMore, isReachingEnd } = useScroll(
+    `/api/user`,
+    10,
+  );
 
   return (
     <main>
@@ -15,6 +21,16 @@ export default function Home() {
       ) : (
         spinner()
       )}
+      {issues.map((issue) => {
+        return (
+          <p key={issue.id} style={{ margin: "6px 0" }}>
+            - {issue.name}
+          </p>
+        );
+      })}
+      <div ref={loadMoreRef} />
+      {isLoadingMore && spinner()}
+      {isReachingEnd && !isLoadingMore && <p>No more issues to load.</p>}
     </main>
   );
 }
