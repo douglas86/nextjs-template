@@ -2,9 +2,7 @@
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
     "name" TEXT,
-    "ivName" TEXT,
     "email" TEXT NOT NULL,
-    "ivEmail" TEXT,
     "emailVerified" TIMESTAMP(3),
     "image" TEXT,
     "role" TEXT NOT NULL DEFAULT 'user',
