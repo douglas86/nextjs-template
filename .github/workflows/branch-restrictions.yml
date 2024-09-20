@@ -27,3 +27,10 @@ jobs:
             echo "Error: PR to 'develop' branch is only allowed from 'feat/*' or 'realese' branches."
             exit 1
           fi
+          
+          if [[ "$TARGET_BRANCH" == "release" && ! "$SOURCE_BRANCH" =~ ^(docs/.+|bug/.+)$ ]]; then
+            echo "Error: PR to 'release' branch is only allowed from 'docs/*' or 'bug/*' branches."
+            exit 1
+          fi
+          
+          echo "Branch check passed. Proceed with the PR."
