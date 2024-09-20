@@ -22,3 +22,8 @@ jobs:
             echo "Error: PR to 'main' branch is only allowed from 'develop' or 'hotfix/*' branches."
             exit 1
           fi
+          
+          if [[ "$TARGET_BRANCH" == "develop" && ! "$SOURCE_BRANCH" =~ ^(feat/.+|release)$ ]]; then
+            echo "Error: PR to 'develop' branch is only allowed from 'feat/*' or 'realese' branches."
+            exit 1
+          fi
