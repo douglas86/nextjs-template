@@ -21,8 +21,8 @@ jobs:
           
 #          Rules for merging to main
           if [["$TARGET_BRANCH"=="main" && !"$SOURCE_BRANCH"=~^(develop|hotfix/.+)$]]; then
-               echo "Error: PR to 'main' branch is only allowed from 'develop' or 'hotfix/*' branches."
-               exit 1
+            echo "Error: PR to 'main' branch is only allowed from 'develop' or 'hotfix/*' branches."
+            exit 1
           fi
 
 #          Rules for merging to develop
