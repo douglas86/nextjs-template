@@ -14,4 +14,6 @@ jobs:
 
     steps:
       - name: Check if PR is from an allowed branch
-        run: echo "Hello, world"
+        run: |
+          echo "Hello world"
+          echo "Branch name"
