@@ -1,0 +1,40 @@
+name: "Enforce Allowed PR Branches"
+
+#Trigger this workflow on every PR event
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+      - release
+
+jobs:
+  check-pr-branch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check if PR is from an allowed branch
+        run: |
+#          Get the source and target branch name
+          TARGET_BRANCH="${{github.base_ref}}"
+          SOURCE_BRANCH="${{github.head_ref}}"
+          
+#          Rules for merging to main
+          if [[$TARGET_BRANCH == "main" && ! $SOURCE_BRANCH =~ ^(develop|hotfix/.+)$ ]]; then
+            echo "Error: PR to 'main' branch is only allowed from 'develop' or 'hotfix/*' branches."
+            exit 1
+          fi
+
+#          Rules for merging to develop
+          if [[$TARGET_BRANCH == "develop" && ! $SOURCE_BRANCH =~ ^(feat/.+|release)$ ]]; then
+            echo "Error: PR to 'develop' branch is only allowed from 'feat/*' or 'release' branches."
+            exit 1
+          fi
+            
+#          Rules for merging to release
+          if [[ $TARGET_BRANCH == 'release' && ! $SOURCE_BRANCH =~ ^(bug/.+|docs/.+)$ ]]; then
+            echo "Error: PR to 'release' branch is only allowed from 'bug/*' or 'docs/*' branches."
+            exit 1
+          fi
+            
+          echo "Branch check passed. Proceed with the PR."
