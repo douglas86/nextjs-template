@@ -21,7 +21,7 @@ jobs:
           
 #          Rules for merging to main
           if [[ "$TARGET_BRANCH" == "main" && ! "$SOURCE_BRANCH" =~ ^(develop|hotfix/.+)$ ]]; then
-            echo ""
+            echo "Error:"
             exit 1
           fi
 
