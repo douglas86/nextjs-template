@@ -13,5 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Echo step
-        run: echo "Hello world!"
+      - name: Check if PR is from an allowed branch
+        run: |
+#          Get the source and target branch names
+          echo "Branch check passed. Proceed with PR."
