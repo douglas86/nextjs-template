@@ -1,0 +1,25 @@
+name: "Block Direct Commits to Protected Branches"
+
+#Trigger the workflow on push to protected branches (main, develop)
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - release
+
+jobs:
+  block-direct-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check if this is a direct push
+        run: |
+          if [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" =~ ^refs/heads/(main|develop|release)$ ]]; then
+            echo "Error: Direct commits to 'main' or 'develop' are not allowed. Please create a pull request."
+            exit 1 # Fails the workflow
+          fi
+
+      - name: Allow push if part of a PR
+        if: github.event.pull_request
+        run: echo "This is part of a pull request, push allowed."
