@@ -2,7 +2,7 @@
 import crypto from "crypto";
 
 // lib directory
-import { NEXTAUTH_SECRET_IV, DATA_ENCRYPTION_SECRET } from "@/lib/keys";
+import { secret_iv, secret_key } from "@/lib/keys";
 
 /**
  * Key used to encrypt data
@@ -10,7 +10,7 @@ import { NEXTAUTH_SECRET_IV, DATA_ENCRYPTION_SECRET } from "@/lib/keys";
  */
 export const key = crypto
   .createHash("sha256")
-  .update(DATA_ENCRYPTION_SECRET)
+  .update(secret_key)
   .digest("hex")
   .substring(0, 32);
 
@@ -20,6 +20,6 @@ export const key = crypto
  */
 export const encryptionIV = crypto
   .createHash("sha512")
-  .update(NEXTAUTH_SECRET_IV)
+  .update(secret_iv)
   .digest("hex")
   .substring(0, 16);
