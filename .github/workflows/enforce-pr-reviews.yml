@@ -14,7 +14,7 @@ jobs:
       - name: Ensure PR has enough reviews
         run: |
           reviews=$(gh pr view ${{ github.event.pull_request.number }} --json reviews --jq '.reviews | length')
-          if [[ "$reviews" -lt 1 ]]; then
-            echo "Error: This PR requires at least 1 approval."
+          if [[ "$reviews" -lt 2 ]]; then
+            echo "Error: This PR requires at least 2 approval."
             exit 1
           fi
