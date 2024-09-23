@@ -33,7 +33,7 @@ jobs:
   # Conditionally run other jobs if the repository is not a template
   build:
     needs: check-template
-    if: steps.check-template.outputs.is_template == 'false'
+    if: needs.check-template.outputs.is_template == 'false'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
