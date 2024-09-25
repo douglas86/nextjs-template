@@ -13,6 +13,7 @@
     "lint": "next lint",
     "dev": "next dev --turbo",
     "docker": "pnpm store prune && pnpm install && docker-compose up",
+    "migrate": "pnpm exec prisma generate && pnpm exec prisma migrate dev --name init",
     "prisma": "npx prisma studio",
     "cypress": "npx cypress open"
   },

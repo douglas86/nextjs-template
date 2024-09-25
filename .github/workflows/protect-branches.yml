@@ -1,0 +1,17 @@
+name: Prevent Branch Deletion
+
+on:
+  delete:
+    branches:
+      - '*'
+
+jobs:
+  prevent_delete:
+    runs-on: ubuntu-latest
+    steps:
+      - name: check branch name
+        run: |
+          if [[ "${GITHUB_REF##*/}" == "main" || "${GITHUB_REF##*/}" == "develop" || "${GITHUB_REF##*/}" == "release" ]]; then
+            echo "Error: Deleting branch '${GITHUB_REF##*/}' is not allowed!"
+            exit 1
+          fi
