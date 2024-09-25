@@ -180,9 +180,9 @@ This project has the following features
 - cypress for testing
 - prisma orm for database management
 - tailwind for styling all of my components
-- I have also setup custom hooks: [useFetch](#how-to-use-usefetch), [useScroll](#how-to-use-usescroll), [useAppContext](#how-to-use-useappcontext)
+- I have also setup custom hooks: [useFetch](#how-to-use-usefetch-hook), [useScroll](#how-to-use-usescroll-hook), [useAppContext](#how-to-use-useappcontext-hook)
 
-### How to use useFetch
+### How to use useFetch hook
 
 Introduction: This hook is going to be used to fetch data from the server
 
@@ -195,9 +195,28 @@ Introduction: This hook is going to be used to fetch data from the server
 
 ![fetch.png](public/docs/features/fetch.png)
 
-### How to use useScroll
+### How to use useScroll hook
 
-### How to use useAppContext
+Introduction:
+This hook uses [infinite scroll](https://www.google.com/search?q=what+is+infinite+scroll&oq=what+is+infinite+scroll&gs_lcrp=EgZjaHJvbWUyCQgAEEUYORiABDIHCAEQABiABDIHCAIQABiABDIHCAMQABiABDIHCAQQABiABDIICAUQABgWGB4yCggGEAAYDxgWGB4yCggHEAAYDxgWGB4yCAgIEAAYFhgeMggICRAAGBYYHtIBCDU1MjdqMGo3qAIAsAIA&sourceid=chrome&ie=UTF-8)
+to fetch data from the server
+
+- I have created a custom hook called useScroll
+- import it at the top of your file
+- destructure: issues, loadMoreRef, isLoadingMore, isReachingEnd from custom hook
+- There is one required value and an optional value to pass into the hook
+- The required parameter is the url that you want to get from
+- The optional parameter is how many documents you want to fetch at a time
+- This optional parameter is defaulted to 10 documents
+
+![scroll.png](public/docs/features/scroll.png)
+
+- The data can then be mapped
+- A div needs to be created as a placeholder for the ref (shown on line 31)
+- The next one is isLoadingMore which is used to see if more data is to come
+- The next one is isReachingEnd for telling you when the end is near
+
+### How to use useAppContext hook
 
 ---
 
