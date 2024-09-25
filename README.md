@@ -159,7 +159,7 @@ To install pnpm run the following command: $ npm install -g pnpm
 Commands that can be used with PNPM:
 
 - pnpm script: this will run the script that is defined in package.json, a script is the name of the script
-- pnpm store prune: this will remove all node modules that are not attached to any projects if you delete node_modules and pnpm lock file runs this command after wards
+- pnpm store prune: this will remove all node modules that are not attached to any projects if you delete node_modules and pnpm lock file run this command after wards
 - pnpm install: install all packages from package.json
 - pnpm add package: adds the package that you want to install
 - pnpm exec prisma generate: this will generate the data in your prisma schema
@@ -182,6 +182,30 @@ This project has the following features
 - tailwind for styling all of my components
 - [swagger ui](#swagger-ui) for documenting all endpoints
 - I have also setup custom hooks: [useFetch](#how-to-use-usefetch-hook), [useScroll](#how-to-use-usescroll-hook), [useAppContext](#how-to-use-useappcontext-hook)
+- I have also setup [scripts](#scripts) to make it easier to run certain commands
+
+### Scripts
+
+Docker
+- To run the docker script type $ pnpm docker
+- This will run three commands:
+  - $ pnpm store prune
+  - $ pnpm install
+  - $ docker-compose up
+- it will first remove all dead packages from pnpm store
+- It will then install all packages to pnpm store
+- it will then start the docker daemon tool
+
+Prisma
+- To run prisma script type $ pnpm prisma 
+- This will run prisma studio
+- Prisma Studio to a GUI for Prisma ORM
+- It is used to visualize your data in the database
+- It opens in a new browser tab
+
+Cypress
+- To run cypress script type $ pnpm cypress
+- Cypress is a test framework for automatically testing the UI/UX of your website
 
 ### How to use useFetch hook
 
