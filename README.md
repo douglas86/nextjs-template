@@ -29,6 +29,9 @@
   - [Organisms: third stage](#organisms--third-stage)
   - [Templates: forth stage](#templates--forth-stage)
   - [Pages: fifth stage](#pages--fifth-stage)
+- [Bugs](#bugs)
+  - [Error invalid arg value](#error-invalid-arg-value)
+  - [JWT Session Error](#jwt-session-error)
 - [Credits](#credits)
 
 ---
@@ -494,6 +497,38 @@ There are three different criteria that fall into this category:
 - a beautiful and functional user interface.
 
 ![page-example.png](public/docs/atomic/page-example.png)
+
+---
+
+## [Bugs](#table-of-content)
+
+- [Error invalid arg value](#error-invalid-arg-value)
+- [JWT Session Error](#jwt-session-error)
+
+### [Error invalid arg value](#bugs)
+
+Explain the Problem?
+- Whenever I try to log in for the first time
+- I get this error
+- I think this is a problem with trying to decrypt data
+
+![Invalid-arg.png](public/docs/bugs/Invalid-arg.png)
+
+- This will be an issue with session object in NextAuth endpoint
+
+### [JWT Session Error](#bugs)
+
+Explain the Problem?
+- I keep on getting a session error with Next Auth
+- This Problem happens with JWT tokens
+- When ever I am logged in with Google authentication
+
+![session-error.png](public/docs/bugs/session-error.png)
+
+- This Problem comes from the session object in Next Auth
+- For this project, JWT tokens are not being used
+- I am rather storing session token in db
+- which are more secure
 
 ---
 
