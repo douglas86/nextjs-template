@@ -19,6 +19,8 @@
     - [What is declared in the state store?](#what-is-declared-in-the-state-store)
     - [How do you use the State store?](#how-do-you-use-the-state-store)
   - [Swagger UI](#swagger-ui)
+- [Branching Strategy](#branching-strategy)
+  - [Description](#description)
 - [Credits](#credits)
 
 ---
@@ -307,6 +309,22 @@ Posting data to your endpoint?
 
 - All data for swagger is stored in swagger.yaml file
 - under public directory
+
+---
+
+## [Branching Strategy](#table-of-content)
+
+### [Description](#branching-strategy)
+
+We will be using Git Flow as Our Branching Strategy
+
+- **main**: The Production branch. Only stable, tested code is merged here
+- **develop**: This is an integration branch for all new features
+- **release**: This branch is for all final testing before develop gets merged to main
+- **feat/[feature-name]**: All new features get done from here. Once completed gets merged to develop and branch gets deleted
+- **hotfix/[issue-name]**: Used for urgent fixes. Created from main then merged into main and develop branch
+- **docs/[documentation-name]**: Used for updating the documentation. Once completed gets merged to release branch
+- **bug/[bugfix-name]**: Used to fix final bugs on the release branch. Created from release. Once completed get merged to release branch.
 
 ---
 
