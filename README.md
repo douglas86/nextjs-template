@@ -34,7 +34,7 @@ Note: to install the above information, please see the Instructions on your pref
 - git clone git@github.com:douglas86/nextjs-template.git
 - This project uses node version 22
 - Which can be seen in the package.json under the engines object
-  
+
 ![engines_object.png](public/docs/setup/engines_object.png)
 
 - Please make sure that [nvm](#node-version-manager) is installed and using node version 22
