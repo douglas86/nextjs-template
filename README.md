@@ -71,25 +71,17 @@ NEXT_APP_GOOGLE_CLIENT_ID and NEXT_APP_GOOGLE_SECRET_KEY environment variable
 - NEXT_APP_GOOGLE_SECRET_KEY: secret key
 - copy and paste it in the environment variable
 
-NEXTAUTH_SECRET_KEY environment variable
+JWT_SECRET, DATA_ENCRYPTION_SECRET, NEXTAUTH_SECRET_IV environment variable
 
-- This secret key needs to be generated
-- Generate a new secret key for Next and Prisma adapter
+- These secret keys need to be generated
 - Use the following command $ openssl rand -base64 32
 - that should then give you a string that is necessary for .env file
 - if you are using windows, make sure to use wsl
-- then place this in your environment variable file
-- NEXTAUTH_SECRET_KEY: key that was just generated
-
-NEXTAUTH_SECRET_IV environment variable
-
-- You need to generate a new Secret iv key for encrypting and decrypt purposes
-- To generate a new key run the following command $ openssl rand -base64 32
-- You can use the same key as the one above for local development
-- But, please don't use the same key when in production
-- if you are using windows, make sure to use wsl
-- then place this newly created secret in you .env file
-- NEXTAUTH_SECRET_IV: key that was just generated
+- once generated, place it in your environment variable file
+- you can use the same generated key for all the environment variable
+- during local development
+- But if this is going to production, please create different keys for each one
+- it will help improve security
 
 NEXTAUTH_ALGORITHM environment variable
 
@@ -142,7 +134,7 @@ But, strictly speaking, the setup process should be the same as Linux
 ### [Node Version Manager](#getting-started)
 
 - To install node version manager with curl, run the following command
-- $ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+- $ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 - then restart the terminal
 - to verify that it worked, run the following command
 - $ nvm --version
@@ -158,13 +150,15 @@ Commands that can be used with NVM:
 - nvm default 22: sets node version 22 as the default version
 - nvm list: will show you all node versions that you have on your system
 
+Note: To get the latest nvm script click [here](https://github.com/nvm-sh/nvm?tab=readme-ov-file#install--update-script)
+
 ### [pnpm Package Manager](#getting-started)
 
 To install pnpm run the following command: $ npm install -g pnpm
 
 Commands that can be used with PNPM:
 
-- pnpm run script: this will run the script that is defined in package.json, a script is the name of the script
+- pnpm script: this will run the script that is defined in package.json, a script is the name of the script
 - pnpm store prune: this will remove all node modules that are not attached to any projects if you delete node_modules and pnpm lock file runs this command after wards
 - pnpm install: install all packages from package.json
 - pnpm add package: adds the package that you want to install
