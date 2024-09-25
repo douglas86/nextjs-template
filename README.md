@@ -12,6 +12,13 @@
   - [Node Version Manager](#node-version-manager)
   - [pnpm Package Manager](#pnpm-package-manager)
 - [Features](#features)
+  - [Scripts](#scripts)
+  - [How to use useFetch hook](#how-to-use-usefetch-hook)
+  - [How to use useScroll hook](#how-to-use-usescroll-hook)
+  - [How to use useAppContext hook](#how-to-use-useappcontext-hook)
+    - [What is declared in the state store?](#what-is-declared-in-the-state-store)
+    - [How do you use the State store?](#how-do-you-use-the-state-store)
+  - [Swagger UI](#swagger-ui)
 - [Credits](#credits)
 
 ---
@@ -188,6 +195,7 @@ This project has the following features
 
 Docker
 - To run the docker script type $ pnpm docker
+- Please make sure that Docker desktop is up and running before running this script
 - This will run three commands:
   - $ pnpm store prune
   - $ pnpm install
