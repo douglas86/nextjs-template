@@ -11,6 +11,7 @@
     "start": "next start",
     "lint": "next lint",
     "dev": "next dev --turbo",
+    "docker": "pnpm store prune && pnpm install && docker-compose up",
     "prisma": "npx prisma studio",
     "cypress": "npx cypress open"
   },
