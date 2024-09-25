@@ -20,8 +20,15 @@
     - [How do you use the State store?](#how-do-you-use-the-state-store)
   - [Swagger UI](#swagger-ui)
 - [Branching Strategy](#branching-strategy)
-  - [Description of branch protection rules](#description-of-branch-protection-rules)
+  - [Description of branch strategy](#description-of-branch-strategy)
   - [Branch Protection Rules](#branch-protection-rules)
+- [Atomic Design Structure](#atomic-design-structure)
+  - [Description of atomic design](#description-of-atomic-design)
+  - [Atoms: first stage](#atoms--first-stage)
+  - [Molecules: second stage](#molecules--second-stage)
+  - [Organisms: third stage](#organisms--third-stage)
+  - [Templates: forth stage](#templates--forth-stage)
+  - [Pages: fifth stage](#pages--fifth-stage)
 - [Credits](#credits)
 
 ---
@@ -315,7 +322,9 @@ Posting data to your endpoint?
 
 ## [Branching Strategy](#table-of-content)
 
-### [Description of branch protection rules](#branching-strategy)
+![git-flow.png](public/docs/branching/git-flow.png)
+
+### [Description of branch strategy](#branching-strategy)
 
 We will be using Git Flow as Our Branching Strategy
 
@@ -326,6 +335,8 @@ We will be using Git Flow as Our Branching Strategy
 - **hotfix/[issue-name]**: Used for urgent fixes. Created from main then merged into main and develop branch
 - **docs/[documentation-name]**: Used for updating the documentation. Once completed gets merged to release branch
 - **bug/[bugfix-name]**: Used to fix final bugs on the release branch. Created from release. Once completed get merged to release branch.
+
+Note: for this project I have added two additional branch names, bug and docs
 
 ### [Branch Protection Rules](#branching-strategy)
 
@@ -344,7 +355,7 @@ This repository has got certain branch protection rules applied
 #### [Branch name validation](#branch-protection-rules)
 
 - This rule will see if the branch naming convention is correct
-- In other words, only if the branch name is main, develop, release, feat, hotfix, bug, docs, feat
+- In other words, only if the branch name is main, develop, release, feat, hotfix, bug, docs
 - If you haven't created the correct naming convention, it will reject your push to git
 
 #### [Branch restrictions](#branch-protection-rules)
@@ -361,11 +372,137 @@ There are three different criteria that fall into this category:
 
 ---
 
+## [Atomic Design Structure](#table-of-content)
+
+![atomic-design.png](public/docs/atomic/atomic-design.png)
+
+- [Description of atomic design](#description-of-atomic-design)
+- [Atoms: first stage](#atoms--first-stage)
+- [Molecules: second stage](#molecules--second-stage)
+- [Organisms: third stage](#organisms--third-stage)
+- [Templates: forth stage](#templates--forth-stage)
+- [Pages: fifth stage](#pages--fifth-stage)
+
+### [Description of atomic design](#atomic-design-structure)
+
+- Atomic design is a methodology composed of five distinct stages working together
+- to create interface design systems in a more deliberate and hierarchical manner.
+- The five stages of atomic design are:
+  1. Atoms
+  2. Molecules
+  3. Organisms
+  4. Templates
+  5. Pages
+- Atomic design is not a linear process, 
+- but rather a mental model to help us think of our user interface
+- as both a cohesive whole and a collection of parts at the same time.
+- Each of the five stages plays a key role in the hierarchy of our interface
+- design systems. Let's dive into each stage in a bit more detail.
+
+### [Atoms: first stage](#atomic-design-structure)
+
+- If atoms are the basic building block of matter,
+- then the atoms of our interfaces serve as the foundational building blocks
+- that comprises all our user interfaces.
+- These atoms include basic HTML elements
+- like form labels, inputs, buttons, and others
+- that can't be broken down any further without ceasing to be functional.
+
+![atoms.png](public/docs/atomic/atoms.png)
+
+### [Molecules: second stage](#atomic-design-structure)
+
+- In chemistry, molecules are groups of atoms bonded together
+- that takes on distinct new properties.
+- For instance, water molecules and hydrogen peroxide molecules have their own
+- unique properties and behave quite differently,
+- even though they're made up of the same atomic elements (hydrogen and oxygen)
+
+- In interfaces, molecules are relatively simple groups of UI elements
+- functioning together as a unit. For example, a form
+- label, search input, and button can join together to create a
+- search form molecule.
+
+![molecule.png](public/docs/atomic/molecule.png)
+
+### [Organisms: third stage](#atomic-design-structure)
+
+- Organisms are relatively complex UI components composed of
+- groups of molecules and/or atoms and/or other organisms.
+- These organisms form distinct sections of an interface.
+
+- A search form can often be found in the header of many web experiences,
+- so let's put that search form molecule into the context of a header organism.
+
+![organisms.png](public/docs/atomic/organisms.png)
+
+- The header forms a standalone section of an interface,
+- even though it contains several smaller pieces of interface
+- with their own unique properties and functionality.
+
+- Organisms can consist of similar or different molecule types.
+- A header organism might consist of dissimilar elements
+- such as a logo image, primary navigation list, and search form.
+- We see these types of organisms on almost every website we visit.
+
+![organism-example.png](public/docs/atomic/organism-example.png)
+
+### [Templates: forth stage](#atomic-design-structure)
+
+- Templates are page-level objects that place components
+- into a layout and articulate the design's underlying content structure.
+- To build on our previous example, we can take the header
+- organism and apply it to a homepage template.
+
+![template.png](public/docs/atomic/template.png)
+
+- This homepage template displays all the necessary page
+- components functioning together, which provides context for
+- these are relatively abstract molecules and organisms.
+- When crafting an effective design system,
+- it's critical to demonstrate how components look and function
+- together in the context of a layout
+- to prove, the parts add up to a well-functioning whole.
+
+- By defining a page's skeleton, we're able to create a system
+- that can account for a variety of dynamic content,
+- all while providing the necessary guardrails for the types of content
+- that populates certain design patterns.
+
+- For example, the homepage template for Time Inc.
+- shows a few key parts in action while also demonstrating
+- content structure regarding image sizes and character length
+
+![template-example.png](public/docs/atomic/template-example.png)
+
+### [Pages: fifth stage](#atomic-design-structure)
+
+- Pages are specific instances of templates that show what a UI looks like
+- with real representative content in place.
+- Building on our previous example, we can take the homepage template
+- and pour representative text, images, and media into the template
+- to show real content in action.
+
+![pages.png](public/docs/atomic/pages.png)
+
+- The page stage is the most concrete stage of atomic design,
+- and it's important for some rather obvious reasons.
+- After all, this is what users will see and interact with
+- when they visit your experience.
+- This is what your stakeholders will sign off.
+- And this is where you see all those components coming together to form
+- a beautiful and functional user interface.
+
+![page-example.png](public/docs/atomic/page-example.png)
+
+---
+
 ## [Credits](#table-of-content)
 
 - [YouTube tutorial](https://www.youtube.com/watch?v=31ieHmcTUOk&list=PL4cUxeGkcC9hxjeEtdHFNYMtCpjNBm3h7) on setting up docker desktop if you still need assistance
 - For an interactive tutorial for [Next.js](https://nextjs.org/learn)
 - You are wanting to see [Next.js documentation](https://nextjs.org/docs)
 - This [article](https://www.tatvasoft.com/outsourcing/2024/01/nodejs-cryptography.html) helps me with encrypting and decrypting data
+- Explanation of the atomic design was taken from [here](https://atomicdesign.bradfrost.com/chapter-2/)
 
 ---
