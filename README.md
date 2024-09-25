@@ -20,7 +20,8 @@
     - [How do you use the State store?](#how-do-you-use-the-state-store)
   - [Swagger UI](#swagger-ui)
 - [Branching Strategy](#branching-strategy)
-  - [Description](#description)
+  - [Description of branch protection rules](#description-of-branch-protection-rules)
+  - [Branch Protection Rules](#branch-protection-rules)
 - [Credits](#credits)
 
 ---
@@ -314,7 +315,7 @@ Posting data to your endpoint?
 
 ## [Branching Strategy](#table-of-content)
 
-### [Description](#branching-strategy)
+### [Description of branch protection rules](#branching-strategy)
 
 We will be using Git Flow as Our Branching Strategy
 
@@ -325,6 +326,38 @@ We will be using Git Flow as Our Branching Strategy
 - **hotfix/[issue-name]**: Used for urgent fixes. Created from main then merged into main and develop branch
 - **docs/[documentation-name]**: Used for updating the documentation. Once completed gets merged to release branch
 - **bug/[bugfix-name]**: Used to fix final bugs on the release branch. Created from release. Once completed get merged to release branch.
+
+### [Branch Protection Rules](#branching-strategy)
+
+- [Block direct push](#block-direct-push)
+- [Branch name validation](#branch-name-validation)
+- [Branch restrictions](#branch-restrictions)
+
+This repository has got certain branch protection rules applied
+
+#### [Block direct push](#branch-protection-rules)
+
+- This Rule helps to prevent direct pushes
+- To main, develop or release branch
+- If you try to do direct pushes, it will reject your push
+
+#### [Branch name validation](#branch-protection-rules)
+
+- This rule will see if the branch naming convention is correct
+- In other words, only if the branch name is main, develop, release, feat, hotfix, bug, docs, feat
+- If you haven't created the correct naming convention, it will reject your push to git
+
+#### [Branch restrictions](#branch-protection-rules)
+
+- This rule will check if the PR is from an allowed branch
+- For example, if you want to create a PR and you try to merge it with main
+- It will only allow hotfix/* and develop branches into main
+
+There are three different criteria that fall into this category:
+
+- only allow PR's from hotfix/* and develop into main
+- only allow PR's from feat/* and release into main 
+- only allow PR's from bug/* and docs/* into release
 
 ---
 
