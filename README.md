@@ -46,6 +46,13 @@ What is necessary before cloning this repository?
 
 Note: to install the above information, please see the Instructions on your preferred Operating system
 
+- [Setting up Locally](#setting-up-locally)
+- [Instructions for Linux](#instructions-for-linux)
+- [Instructions for Windows](#instructions-for-windows)
+- [Instructions for Mac](#instructions-for-mac)
+- [Node Version Manager](#node-version-manager)
+- [pnpm Package Manager](#pnpm-package-manager)
+
 ### [Setting up Locally](#getting-started)
 
 - Once you have installed what is required for your operating system, come back to this space
@@ -204,7 +211,13 @@ This project has the following features
 - I have also setup custom hooks: [useFetch](#how-to-use-usefetch-hook), [useScroll](#how-to-use-usescroll-hook), [useAppContext](#how-to-use-useappcontext-hook)
 - I have also setup [scripts](#scripts) to make it easier to run certain commands
 
-### Scripts
+- [Scripts](#scripts)
+- [How to use useFetch hook](#how-to-use-usefetch-hook)
+- [How to use useScroll hook](#how-to-use-usescroll-hook)
+- [How to use useAppContext hook](#how-to-use-useappcontext-hook)
+- [Swagger UI](#swagger-ui)
+
+### [Scripts](#features)
 
 Docker
 - To run the docker script type $ pnpm docker
@@ -228,7 +241,7 @@ Cypress
 - To run cypress script type $ pnpm cypress
 - Cypress is a test framework for automatically testing the UI/UX of your website
 
-### How to use useFetch hook
+### [How to use useFetch hook](#features)
 
 Introduction: This hook is going to be used to fetch data from the server
 
@@ -241,7 +254,7 @@ Introduction: This hook is going to be used to fetch data from the server
 
 ![fetch.png](public/docs/features/fetch.png)
 
-### How to use useScroll hook
+### [How to use useScroll hook](#features)
 
 Introduction:
 This hook uses [infinite scroll](https://www.google.com/search?q=what+is+infinite+scroll&oq=what+is+infinite+scroll&gs_lcrp=EgZjaHJvbWUyCQgAEEUYORiABDIHCAEQABiABDIHCAIQABiABDIHCAMQABiABDIHCAQQABiABDIICAUQABgWGB4yCggGEAAYDxgWGB4yCggHEAAYDxgWGB4yCAgIEAAYFhgeMggICRAAGBYYHtIBCDU1MjdqMGo3qAIAsAIA&sourceid=chrome&ie=UTF-8)
@@ -262,13 +275,16 @@ to fetch data from the server
 - The next one is isLoadingMore which is used to see if more data is to come
 - The next one is isReachingEnd for telling you when the end is near
 
-### How to use useAppContext hook
+### [How to use useAppContext hook](#features)
 
 Introduction:
 This hook is used to fetch
 and post data to the [state store](https://www.google.com/search?q=what+is+a+state+store+used+for+in+react&sca_esv=02c44965d6d4b280&sca_upv=1&sxsrf=ADLYWIJlOh7mB10xne6S8P-eyQKUvfXPwQ%3A1727277711166&ei=jyr0ZtTzCa-qhbIPqLSFyQ8&ved=0ahUKEwiU95vzst6IAxUvVUEAHShaIfkQ4dUDCBA&uact=5&oq=what+is+a+state+store+used+for+in+react&gs_lp=Egxnd3Mtd2l6LXNlcnAiJ3doYXQgaXMgYSBzdGF0ZSBzdG9yZSB1c2VkIGZvciBpbiByZWFjdDIFECEYoAEyBRAhGKABMgUQIRifBTIFECEYnwUyBRAhGJ8FMgUQIRifBTIFECEYnwVI1xlQmwhYkRhwAXgBkAEAmAHrAaAB-guqAQUwLjcuMrgBA8gBAPgBAZgCCqACpQzCAgoQABiwAxjWBBhHwgIHECEYoAEYCsICBBAhGBWYAwCIBgGQBgWSBwUxLjcuMqAH-kk&sclient=gws-wiz-serp)
 
-#### What is declared in the state store?
+- [What is declared in the state store?](#what-is-declared-in-the-state-store)
+- [How do you use the State store?](#how-do-you-use-the-state-store)
+
+#### [What is declared in the state store?](#how-to-use-useappcontext-hook)
 
 - There are five objects that are declared for the state store 
 - state, dispatch, user, data, forms
@@ -278,7 +294,7 @@ and post data to the [state store](https://www.google.com/search?q=what+is+a+sta
 
 ![state-store.png](public/docs/features/state-store.png)
 
-#### How do you use the State store?
+#### [How do you use the State store?](#how-to-use-useappcontext-hook)
 
 Fetching data from state store?
 - When the app loads, I fetch data for the current logged-in user
@@ -311,7 +327,7 @@ Posting data to your endpoint?
 
 ![userReducer.png](public/docs/features/userReducer.png)
 
-### Swagger UI
+### [Swagger UI](#features)
 
 - To use swagger UI type /swagger into the address bar
 - Wait about two to three seconds for Next.js to cache the data
@@ -326,6 +342,9 @@ Posting data to your endpoint?
 ## [Branching Strategy](#table-of-content)
 
 ![git-flow.png](public/docs/branching/git-flow.png)
+
+- [Description of branch strategy](#description-of-branch-strategy)
+- [Branch Protection Rules](#branch-protection-rules)
 
 ### [Description of branch strategy](#branching-strategy)
 
