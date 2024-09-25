@@ -175,6 +175,30 @@ If you are using windows, please use PowerShell to run pnpm as for some reason w
 
 ## [Features](#table-of-content)
 
+This project has the following features
+
+- cypress for testing
+- prisma orm for database management
+- tailwind for styling all of my components
+- I have also setup custom hooks: [useFetch](#how-to-use-usefetch), [useScroll](#how-to-use-usescroll), [useAppContext](#how-to-use-useappcontext)
+
+### How to use useFetch
+
+Introduction: This hook is going to be used to fetch data from the server
+
+- When fetching data from the server, pass the endpoint of the server that you are wanting data from
+- For example, you can pass it the endpoint api/user
+- this will fetch data from that endpoint
+- but you don't need to say api in front of it
+- call the endpoint user
+- look at the image down below for a better example
+
+![fetch.png](public/docs/features/fetch.png)
+
+### How to use useScroll
+
+### How to use useAppContext
+
 ---
 
 ## [Credits](#table-of-content)
