@@ -180,6 +180,7 @@ This project has the following features
 - cypress for testing
 - prisma orm for database management
 - tailwind for styling all of my components
+- [swagger ui](#swagger-ui) for documenting all endpoints
 - I have also setup custom hooks: [useFetch](#how-to-use-usefetch-hook), [useScroll](#how-to-use-usescroll-hook), [useAppContext](#how-to-use-useappcontext-hook)
 
 ### How to use useFetch hook
@@ -264,6 +265,16 @@ Posting data to your endpoint?
 - You can see the type if you look at the user reducer function
 
 ![userReducer.png](public/docs/features/userReducer.png)
+
+### Swagger UI
+
+- To use swagger UI type /swagger into the address bar
+- Wait about two to three seconds for Next.js to cache the data
+
+![swagger.png](public/docs/features/swagger.png)
+
+- All data for swagger is stored in swagger.yaml file
+- under public directory
 
 ---
 
