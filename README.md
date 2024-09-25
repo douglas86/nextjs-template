@@ -11,7 +11,8 @@
   - [Instructions for Mac](#instructions-for-mac)
   - [Node Version Manager](#node-version-manager)
   - [pnpm Package Manager](#pnpm-package-manager)
-- [Additional Resources](#additional-resources)
+- [Features](#features)
+- [Credits](#credits)
 
 ---
 
@@ -118,7 +119,7 @@ Note: "$" symbol in front is not part of the command it is to show that it is a 
 ### [Instructions for Linux](#getting-started)
 
 - Install docker desktop from the following [link](https://docs.docker.com/desktop/install/linux-install/)
-- If you are needing additional assistance, go to the [additional resource section](#additional-resources)
+- If you are needing additional assistance, go to the [credits section](#credits) for additional information
 - Once docker desktop has been installed then install [nvm](#node-version-manager) see instructions below
 - This Project uses pnpm as its package manager
 - To install pnpm globally, run the following command: $ npm install -g pnpm
@@ -176,7 +177,13 @@ which in theory is supposed to make it faster for execution and storage space
 Note:
 If you are using windows, please use PowerShell to run pnpm as for some reason wsl didn't want to work in this regard
 
-## [Additional Resources](#table-of-content)
+---
+
+## [Features](#table-of-content)
+
+---
+
+## [Credits](#table-of-content)
 
 - [YouTube tutorial](https://www.youtube.com/watch?v=31ieHmcTUOk&list=PL4cUxeGkcC9hxjeEtdHFNYMtCpjNBm3h7) on setting up docker desktop if you still need assistance
 - For an interactive tutorial for [Next.js](https://nextjs.org/learn)
