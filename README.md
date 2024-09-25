@@ -218,6 +218,53 @@ to fetch data from the server
 
 ### How to use useAppContext hook
 
+Introduction:
+This hook is used to fetch
+and post data to the [state store](https://www.google.com/search?q=what+is+a+state+store+used+for+in+react&sca_esv=02c44965d6d4b280&sca_upv=1&sxsrf=ADLYWIJlOh7mB10xne6S8P-eyQKUvfXPwQ%3A1727277711166&ei=jyr0ZtTzCa-qhbIPqLSFyQ8&ved=0ahUKEwiU95vzst6IAxUvVUEAHShaIfkQ4dUDCBA&uact=5&oq=what+is+a+state+store+used+for+in+react&gs_lp=Egxnd3Mtd2l6LXNlcnAiJ3doYXQgaXMgYSBzdGF0ZSBzdG9yZSB1c2VkIGZvciBpbiByZWFjdDIFECEYoAEyBRAhGKABMgUQIRifBTIFECEYnwUyBRAhGJ8FMgUQIRifBTIFECEYnwVI1xlQmwhYkRhwAXgBkAEAmAHrAaAB-guqAQUwLjcuMrgBA8gBAPgBAZgCCqACpQzCAgoQABiwAxjWBBhHwgIHECEYoAEYCsICBBAhGBWYAwCIBgGQBgWSBwUxLjcuMqAH-kk&sclient=gws-wiz-serp)
+
+#### What is declared in the state store?
+
+- There are five objects that are declared for the state store 
+- state, dispatch, user, data, forms
+- state—this is everything that is stored in your state store
+- dispatch - this is when you want to post something to the state store
+- user, data, forms—these are reduced functions that were defined in the context directory
+
+![state-store.png](public/docs/features/state-store.png)
+
+#### How do you use the State store?
+
+Fetching data from state store?
+- When the app loads, I fetch data for the current logged-in user
+- To use this data, you only need to structure it
+
+![destructure.png](public/docs/features/destructure.png)
+
+- Once data has been fetched, you can display it with ease
+
+![display-data.png](public/docs/features/display-data.png)
+
+- The same thing goes for the other reduced functions
+- The data reduced function is for all other data that you want to fetch and use
+- The forms reduced function are to handle all form data
+- Only form data that you want to post to your endpoint
+
+Posting data to your endpoint?
+- To post data to your endpoints destructure dispatch from state
+
+![dispatch.png](public/docs/features/dispatch.png)
+
+- When posting data to state store pass a maximum of two objects to dispatch
+- type and payload
+- type is what case inside the switch statement you want to use
+- payload is the data that you are wanting to post
+
+![dispatch-function.png](public/docs/features/dispatch-function.png)
+
+- You can see the type if you look at the user reducer function
+
+![userReducer.png](public/docs/features/userReducer.png)
+
 ---
 
 ## [Credits](#table-of-content)
