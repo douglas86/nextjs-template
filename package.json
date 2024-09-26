@@ -4,6 +4,7 @@
   "private": true,
   "engines": {
     "node": "22.8.0",
+    "npm": "10.8.2",
     "pnpm": "9.11.0"
   },
   "scripts": {
@@ -11,8 +12,8 @@
     "start": "next start",
     "lint": "next lint",
     "dev": "next dev --turbo",
+    "docker": "pnpm store prune && pnpm install && docker-compose up",
     "migrate": "pnpm exec prisma generate && pnpm exec prisma migrate dev --name init",
-    "docker": "pnpm store prune && docker-compose up",
     "prisma": "npx prisma studio",
     "cypress": "npx cypress open"
   },
