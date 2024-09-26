@@ -11,6 +11,9 @@ jobs:
   require-reviews:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3 # This checks out your repository code
+
       - name: Ensure PR has enough reviews
         run: |
           reviews=$(gh pr view ${{ github.event.pull_request.number }} --json reviews --jq '.reviews | length')
