@@ -5,8 +5,8 @@ import GoogleProvider from "next-auth/providers/google";
 
 // lib directory
 import prisma from "@/lib/prisma";
-import { JWT_SECRET, DATA_ENCRYPTION_SECRET } from "@/lib/keys";
-import { GOOGLE_ID, GOOGLE_SECRET } from "@/lib/keys";
+import { secret_key } from "@/lib/keys";
+import { google_id, google_secret } from "@/lib/keys";
 
 // utils directory
 import { encryptData, decryptData } from "@/utils/API";
@@ -17,7 +17,7 @@ const handler = NextAuth({
     strategy: "database",
   },
   jwt: {
-    secret: JWT_SECRET,
+    secret: secret_key,
     encryption: false,
   },
   callbacks: {
@@ -56,11 +56,11 @@ const handler = NextAuth({
       return true;
     },
   },
-  secret: JWT_SECRET,
+  secret: secret_key,
   providers: [
     GoogleProvider({
-      clientId: GOOGLE_ID,
-      clientSecret: GOOGLE_SECRET,
+      clientId: google_id,
+      clientSecret: google_secret,
     }),
   ],
 });

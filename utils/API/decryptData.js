@@ -2,7 +2,7 @@
 import crypto from "crypto";
 
 // lib directory
-import { NEXTAUTH_ALGORITHM } from "@/lib/keys";
+import { algorithm } from "@/lib/keys";
 
 // utils directory
 import { key, encryptionIV } from "@/utils/API/encryption_secrets";
@@ -14,11 +14,7 @@ import { key, encryptionIV } from "@/utils/API/encryption_secrets";
  */
 export const decryptData = async (encryptedData) => {
   const buff = Buffer.from(encryptedData, "base64");
-  const decipher = crypto.createDecipheriv(
-    NEXTAUTH_ALGORITHM,
-    key,
-    encryptionIV,
-  );
+  const decipher = crypto.createDecipheriv(algorithm, key, encryptionIV);
 
   return (
     decipher.update(buff.toString("utf8"), "hex", "utf8") +
