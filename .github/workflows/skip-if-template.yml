@@ -1,0 +1,44 @@
+name: Skip Workflow for Template Repositories
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - release
+  pull_request:
+    branches:
+      - main
+      - develop
+      - release
+
+jobs:
+  check-template:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if Repository is a Template
+        id: check_template
+        run: |
+          IS_TEMPLATE=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          https://api.github.com/repos/${{ github.repository }} | jq -r '.is_template')
+
+          if [ "$IS_TEMPLATE" = "true" ]; then
+            echo "Repository is a template, skipping workflow."
+            echo "::set-output name=is_template::true"
+          else
+            echo "Repository is not a template, continuing workflow."
+            echo "::set-output name=is_template::false"
+          fi
+
+  # Conditionally run other jobs if the repository is not a template
+  build:
+    needs: check-template
+    if: needs.check-template.outputs.is_template == 'false'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Run build or tests
+        run: |
+          echo "Running the build or test steps..."
