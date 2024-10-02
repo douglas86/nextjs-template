@@ -1,0 +1,25 @@
+name: Enforce PR Reviews
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+      - release
+
+jobs:
+  require-reviews:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3 # This checks out your repository code
+
+      - name: Ensure PR has enough reviews
+        run: |
+          reviews=$(gh pr view ${{ github.event.pull_request.number }} --json reviews --jq '.reviews | length')
+          if [[ "$reviews" -lt 2 ]]; then
+            echo "Error: This PR requires at least 2 approval."
+            exit 1
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
