@@ -4,11 +4,12 @@ import { response } from "@/utils/API/response";
 /**
  * Deletes user based on ID
  * @param request
- * @param params
+ * @param props
  * @returns {Promise<Response>}
  * @constructor
  */
-export async function DELETE(request, { params }) {
+export async function DELETE(request, props) {
+  const params = await props.params;
   const { id } = params;
 
   try {
