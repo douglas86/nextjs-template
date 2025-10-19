@@ -1,4 +1,4 @@
-FROM node:22.8.0-slim
+FROM node:24.10.0-alpine3.22
 
 #using globally package store on local computer
 ENV PNPM_HOME="/pnpm"
